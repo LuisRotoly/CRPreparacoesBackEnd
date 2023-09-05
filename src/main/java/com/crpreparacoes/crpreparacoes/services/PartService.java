@@ -1,7 +1,7 @@
 package com.crpreparacoes.crpreparacoes.services;
 
-import com.crpreparacoes.crpreparacoes.bodyrequestinput.part.CreatePart;
-import com.crpreparacoes.crpreparacoes.bodyrequestinput.part.EditPart;
+import com.crpreparacoes.crpreparacoes.bodyrequestinput.part.CreatePartRequest;
+import com.crpreparacoes.crpreparacoes.bodyrequestinput.part.EditPartRequest;
 import com.crpreparacoes.crpreparacoes.exception.ApiRequestException;
 import com.crpreparacoes.crpreparacoes.models.Part;
 import com.crpreparacoes.crpreparacoes.repositories.BikeRepository;
@@ -25,15 +25,15 @@ public class PartService {
         return partRepository.listAllParts();
     }
 
-    public void addNewPart(CreatePart createPart) {
-        if(partRepository.findByNameAndBike(createPart.getName(), createPart.getBikeId()) != null){
+    public void addNewPart(CreatePartRequest createPartRequest) {
+        if(partRepository.findByNameAndBike(createPartRequest.getName(), createPartRequest.getBikeId()) != null){
             throw new ApiRequestException("Erro! A peça já existe!");
         }
         Part part = new Part();
-        part.setName(createPart.getName());
-        part.setValue(createPart.getValue());
-        part.setStockQuantity(createPart.getStockQuantity());
-        part.setBike(bikeRepository.findById(createPart.getBikeId()).get());
+        part.setName(createPartRequest.getName());
+        part.setValue(createPartRequest.getValue());
+        part.setStockQuantity(createPartRequest.getStockQuantity());
+        part.setBike(bikeRepository.findById(createPartRequest.getBikeId()).get());
         part.setCreatedAt(LocalDateTime.now());
         try {
             partRepository.save(part);
@@ -42,11 +42,26 @@ public class PartService {
         }
     }
 
-    public void editPartById(EditPart editPart) {
+    public void editPartById(EditPartRequest editPartRequest) {
+        Part part = new Part();
+        part.setId(editPartRequest.getId());
+        part.setName(editPartRequest.getName());
+        part.setValue(editPartRequest.getValue());
+        part.setStockQuantity(editPartRequest.getStockQuantity());
+        part.setBike(bikeRepository.findById(editPartRequest.getBikeId()).get());
+        part.setUpdatedAt(LocalDateTime.now());
         try {
-            partRepository.editPartById(editPart.getId(), editPart.getName(), editPart.getValue(), editPart.getStockQuantity(), editPart.getBikeId(), LocalDateTime.now());
+            partRepository.save(part);
         }catch(Exception Error){
             throw new ApiRequestException("Erro ao tentar editar a peça!");
         }
+    }
+
+    public List<Part> filterListParts(String word) {
+        return partRepository.filterListBikes(word);
+    }
+
+    public Part listPartById(Long id) {
+        return partRepository.findById(Math.toIntExact(id)).get();
     }
 }

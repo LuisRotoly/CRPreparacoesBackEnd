@@ -1,11 +1,9 @@
 package com.crpreparacoes.crpreparacoes.exception;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 import org.springframework.http.HttpStatus;
 
-@Getter
-@Setter
+@Data
 public class ApiException {
     private final String message;
     private final HttpStatus httpStatus;

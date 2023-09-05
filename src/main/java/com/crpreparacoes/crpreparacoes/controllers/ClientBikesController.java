@@ -1,9 +1,9 @@
 package com.crpreparacoes.crpreparacoes.controllers;
 
-import com.crpreparacoes.crpreparacoes.bodyrequestinput.clientBikes.CreateClientBikes;
-import com.crpreparacoes.crpreparacoes.bodyrequestinput.clientBikes.EditClientBikes;
-import com.crpreparacoes.crpreparacoes.models.ClientBikes;
-import com.crpreparacoes.crpreparacoes.services.ClientBikesService;
+import com.crpreparacoes.crpreparacoes.bodyrequestinput.clientBikes.CreateClientBikeRequest;
+import com.crpreparacoes.crpreparacoes.bodyrequestinput.clientBikes.EditClientBikeRequest;
+import com.crpreparacoes.crpreparacoes.models.ClientBike;
+import com.crpreparacoes.crpreparacoes.services.ClientBikeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,27 +14,27 @@ import java.util.List;
 public class ClientBikesController {
 
     @Autowired
-    private ClientBikesService clientBikesService;
+    private ClientBikeService clientBikesService;
 
     /**Método para buscar todas as motos de um cliente
-     * @return List<ClientBikes> - Lista de clientes
+     * @return List<ClientBike> - Lista de clientes
      */
-    @RequestMapping(value="/listClientBikes", method = RequestMethod.GET)
-    public @ResponseBody List<ClientBikes> listClientBikes(@RequestParam Long clientId){
-        return clientBikesService.listAllClientBikes(clientId);
+    @RequestMapping(value="/listClientBike", method = RequestMethod.GET)
+    public @ResponseBody List<ClientBike> listClientBike(@RequestParam Long clientId){
+        return clientBikesService.listAllClientBikeByClientId(clientId);
     }
 
     /**Método para adicionar uma moto a um cliente
      */
-    @RequestMapping(value="/addClientBikes", method = RequestMethod.POST)
-    public @ResponseBody void addClientBikes(@RequestBody CreateClientBikes createClientBikes){
-        clientBikesService.addNewClientBikes(createClientBikes);
+    @RequestMapping(value="/addClientBike", method = RequestMethod.POST)
+    public void addClientBike(@RequestBody CreateClientBikeRequest createClientBikeRequest){
+        clientBikesService.addNewClientBike(createClientBikeRequest);
     }
 
     /**Método para editar uma moto de um cliente
      */
-    @RequestMapping(value="/editClientBikes", method = RequestMethod.POST)
-    public @ResponseBody void editClientBikes(@RequestBody EditClientBikes editClientBikes){
-        clientBikesService.editClientBikesById(editClientBikes);
+    @RequestMapping(value="/editClientBike", method = RequestMethod.POST)
+    public void editClientBike(@RequestBody EditClientBikeRequest editClientBikeRequest){
+        clientBikesService.editClientBikeById(editClientBikeRequest);
     }
 }

@@ -1,16 +1,16 @@
 package com.crpreparacoes.crpreparacoes.models;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
 @Entity
-@Getter
-@Setter
-@Table(name="client_bikes")
-public class ClientBikes {
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Table(name="client_bike")
+public class ClientBike {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_client_bikes")

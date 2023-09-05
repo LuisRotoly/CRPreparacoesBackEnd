@@ -1,7 +1,7 @@
 package com.crpreparacoes.crpreparacoes.services;
 
-import com.crpreparacoes.crpreparacoes.bodyrequestinput.client.CreateClient;
-import com.crpreparacoes.crpreparacoes.bodyrequestinput.client.EditClient;
+import com.crpreparacoes.crpreparacoes.bodyrequestinput.client.CreateClientRequest;
+import com.crpreparacoes.crpreparacoes.bodyrequestinput.client.EditClientRequest;
 import com.crpreparacoes.crpreparacoes.exception.ApiRequestException;
 import com.crpreparacoes.crpreparacoes.models.Client;
 import com.crpreparacoes.crpreparacoes.repositories.ClientRepository;
@@ -21,16 +21,16 @@ public class ClientService {
         return clientRepository.listAllClients();
     }
 
-    public void addNewClient(CreateClient createClient) {
-        if(clientRepository.findByCpfcnpj(createClient.getCpfcnpj()) != null){
+    public void addNewClient(CreateClientRequest createClientRequest) {
+        if(clientRepository.findByCpfcnpj(createClientRequest.getCpfcnpj()) != null){
             throw new ApiRequestException("Erro! CPF ou CNPJ do cliente já existe!");
         }
         Client client = new Client();
-        client.setName(createClient.getName());
-        client.setCpfcnpj(createClient.getCpfcnpj());
-        client.setAddress(createClient.getAddress());
-        client.setPhone(createClient.getPhone());
-        client.setNickname(createClient.getNickname());
+        client.setName(createClientRequest.getName());
+        client.setCpfcnpj(createClientRequest.getCpfcnpj());
+        client.setAddress(createClientRequest.getAddress());
+        client.setPhone(createClientRequest.getPhone());
+        client.setNickname(createClientRequest.getNickname());
         client.setCreatedAt(LocalDateTime.now());
         try {
             clientRepository.save(client);
@@ -39,11 +39,27 @@ public class ClientService {
         }
     }
 
-    public void editClientById(EditClient editClient) {
+    public void editClientById(EditClientRequest editClientRequest) {
+        Client client = new Client();
+        client.setId(editClientRequest.getId());
+        client.setName(editClientRequest.getName());
+        client.setCpfcnpj(editClientRequest.getCpfcnpj());
+        client.setAddress(editClientRequest.getAddress());
+        client.setPhone(editClientRequest.getPhone());
+        client.setNickname(editClientRequest.getNickname());
+        client.setUpdatedAt(LocalDateTime.now());
         try {
-            clientRepository.editClientById(editClient.getId(),editClient.getName(),editClient.getCpfcnpj(),editClient.getPhone(),editClient.getNickname(),editClient.getAddress(),LocalDateTime.now());
+            clientRepository.save(client);
         }catch(Exception Error){
             throw new ApiRequestException("Erro ao tentar editar o cliente!");
         }
+    }
+
+    public Client listClientById(Long id) {
+        return clientRepository.findById(Math.toIntExact(id)).get();
+    }
+
+    public List<Client> filterListClients(String word) {
+        return clientRepository.filterListClients(word);
     }
 }

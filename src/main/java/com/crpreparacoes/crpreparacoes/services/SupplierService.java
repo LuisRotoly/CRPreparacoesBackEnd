@@ -1,8 +1,9 @@
 package com.crpreparacoes.crpreparacoes.services;
 
-import com.crpreparacoes.crpreparacoes.bodyrequestinput.supplier.CreateSupplier;
-import com.crpreparacoes.crpreparacoes.bodyrequestinput.supplier.EditSupplier;
+import com.crpreparacoes.crpreparacoes.bodyrequestinput.supplier.CreateSupplierRequest;
+import com.crpreparacoes.crpreparacoes.bodyrequestinput.supplier.EditSupplierRequest;
 import com.crpreparacoes.crpreparacoes.exception.ApiRequestException;
+import com.crpreparacoes.crpreparacoes.models.Bike;
 import com.crpreparacoes.crpreparacoes.models.Supplier;
 import com.crpreparacoes.crpreparacoes.repositories.SupplierRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,14 +22,14 @@ public class SupplierService {
         return supplierRepository.listAllSuppliers();
     }
 
-    public void addNewSupplier(CreateSupplier createSupplier) {
-        if(supplierRepository.findByName(createSupplier.getName()) != null){
+    public void addNewSupplier(CreateSupplierRequest createSupplierRequest) {
+        if(supplierRepository.findByName(createSupplierRequest.getName()) != null){
             throw new ApiRequestException("Erro! O fornecedor já existe!");
         }
         Supplier supplier = new Supplier();
-        supplier.setName(createSupplier.getName());
-        supplier.setPhone(createSupplier.getPhone());
-        supplier.setNotes(createSupplier.getNotes());
+        supplier.setName(createSupplierRequest.getName());
+        supplier.setPhone(createSupplierRequest.getPhone());
+        supplier.setNotes(createSupplierRequest.getNotes());
         supplier.setCreatedAt(LocalDateTime.now());
         try {
             supplierRepository.save(supplier);
@@ -37,11 +38,25 @@ public class SupplierService {
         }
     }
 
-    public void editSupplierById(EditSupplier editSupplier) {
+    public void editSupplierById(EditSupplierRequest editSupplierRequest) {
+        Supplier supplier = new Supplier();
+        supplier.setId(editSupplierRequest.getId());
+        supplier.setName(editSupplierRequest.getName());
+        supplier.setPhone(editSupplierRequest.getPhone());
+        supplier.setNotes(editSupplierRequest.getNotes());
+        supplier.setUpdatedAt(LocalDateTime.now());
         try {
-            supplierRepository.editSupplierById(editSupplier.getId(),editSupplier.getName(),editSupplier.getPhone(),editSupplier.getNotes(),LocalDateTime.now());
+            supplierRepository.save(supplier);
         }catch(Exception Error){
             throw new ApiRequestException("Erro ao tentar editar o fornecedor!");
         }
+    }
+
+    public List<Supplier> filterListSuppliers(String word) {
+        return supplierRepository.filterListSuppliers(word);
+    }
+
+    public Supplier listSupplierById(Long id) {
+        return supplierRepository.findById(Math.toIntExact(id)).get();
     }
 }

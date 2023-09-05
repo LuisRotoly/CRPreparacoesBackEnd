@@ -1,7 +1,8 @@
 package com.crpreparacoes.crpreparacoes.controllers;
 
-import com.crpreparacoes.crpreparacoes.bodyrequestinput.bike.CreateBike;
-import com.crpreparacoes.crpreparacoes.bodyrequestinput.bike.EditBike;
+import com.crpreparacoes.crpreparacoes.bodyrequestinput.bike.CreateBikeRequest;
+import com.crpreparacoes.crpreparacoes.bodyrequestinput.bike.EditBikeRequest;
+import com.crpreparacoes.crpreparacoes.models.Bike;
 import com.crpreparacoes.crpreparacoes.models.Client;
 import com.crpreparacoes.crpreparacoes.services.BikeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,21 +21,37 @@ public class BikeController {
      * @return List<Bike> - Lista de motos
      */
     @RequestMapping(value="/listBikes", method = RequestMethod.GET)
-    public @ResponseBody List<Client> listBikes(){
+    public @ResponseBody List<Bike> listBikes(){
         return bikeService.listAllBikes();
+    }
+
+    /**Método para buscar as motos usando um filtro
+     * @return List<Bike> - Lista de motos
+     */
+    @RequestMapping(value="/filterListBikes", method = RequestMethod.GET)
+    public @ResponseBody List<Bike> filterListBikes(@RequestParam String word){
+        return bikeService.filterListBikes(word);
+    }
+
+    /**Método para buscar uma moto
+     * @return Bike - Moto
+     */
+    @RequestMapping(value="/listBikeById", method = RequestMethod.GET)
+    public @ResponseBody Bike listBikeById(@RequestParam Long id){
+        return bikeService.listBikeById(id);
     }
 
     /**Método para adicionar uma moto
      */
     @RequestMapping(value="/addBike", method = RequestMethod.POST)
-    public @ResponseBody void addBike(@RequestBody CreateBike createBike){
-        bikeService.addNewBike(createBike);
+    public void addBike(@RequestBody CreateBikeRequest createBikeRequest){
+        bikeService.addNewBike(createBikeRequest);
     }
 
     /**Método para editar uma moto
      */
     @RequestMapping(value="/editBike", method = RequestMethod.POST)
-    public @ResponseBody void editBike(@RequestBody EditBike editBike){
-        bikeService.editBikeById(editBike);
+    public void editBike(@RequestBody EditBikeRequest editBikeRequest){
+        bikeService.editBikeById(editBikeRequest);
     }
 }

@@ -1,7 +1,7 @@
 package com.crpreparacoes.crpreparacoes.controllers;
 
-import com.crpreparacoes.crpreparacoes.bodyrequestinput.client.CreateClient;
-import com.crpreparacoes.crpreparacoes.bodyrequestinput.client.EditClient;
+import com.crpreparacoes.crpreparacoes.bodyrequestinput.client.CreateClientRequest;
+import com.crpreparacoes.crpreparacoes.bodyrequestinput.client.EditClientRequest;
 import com.crpreparacoes.crpreparacoes.models.Client;
 import com.crpreparacoes.crpreparacoes.services.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,17 +24,33 @@ public class ClientController {
         return clientService.listAllClients();
     }
 
+    /**Método para buscar os clientes usando um filtro
+     * @return List<Client> - Lista de clientes
+     */
+    @RequestMapping(value="/filterListClients", method = RequestMethod.GET)
+    public @ResponseBody List<Client> filterListClients(@RequestParam String word){
+        return clientService.filterListClients(word);
+    }
+
+    /**Método para buscar um cliente
+     * @return Client - Cliente
+     */
+    @RequestMapping(value="/listClientById", method = RequestMethod.GET)
+    public @ResponseBody Client listClientById(@RequestParam Long id){
+        return clientService.listClientById(id);
+    }
+
     /**Método para adicionar um cliente
      */
     @RequestMapping(value="/addClient", method = RequestMethod.POST)
-    public @ResponseBody void addClient(@RequestBody CreateClient createClient){
-        clientService.addNewClient(createClient);
+    public void addClient(@RequestBody CreateClientRequest createClientRequest){
+        clientService.addNewClient(createClientRequest);
     }
 
     /**Método para editar um cliente
      */
     @RequestMapping(value="/editClient", method = RequestMethod.POST)
-    public @ResponseBody void editClient(@RequestBody EditClient editClient){
-        clientService.editClientById(editClient);
+    public void editClient(@RequestBody EditClientRequest editClientRequest){
+        clientService.editClientById(editClientRequest);
     }
 }
