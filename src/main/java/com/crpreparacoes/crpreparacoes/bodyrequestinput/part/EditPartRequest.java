@@ -3,7 +3,6 @@ package com.crpreparacoes.crpreparacoes.bodyrequestinput.part;
 import lombok.*;
 
 @Data
-
 @AllArgsConstructor
 @NoArgsConstructor
 public class EditPartRequest {

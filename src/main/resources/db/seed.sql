@@ -1,7 +1,7 @@
 CREATE TABLE client (
   id_client bigint AUTO_INCREMENT PRIMARY KEY,
   name varchar(100) NOT NULL,
-  cpfcnpj varchar(14) NOT NULL,
+  cpfcnpj varchar(14) NOT NULL UNIQUE,
   address varchar(150),
   phone varchar(12) NOT NULL,
   nickname varchar(100),
@@ -36,7 +36,7 @@ CREATE TABLE client_bike (
   FOREIGN KEY (client_id) REFERENCES client(id_client),
   bike_id bigint,
   FOREIGN KEY (bike_id) REFERENCES bike(id_bike),
-  plate varchar(7) NOT NULL,
+  plate varchar(7) NOT NULL UNIQUE,
   created_at datetime,
   updated_at datetime
 );
