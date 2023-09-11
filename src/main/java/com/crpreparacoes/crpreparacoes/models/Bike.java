@@ -19,8 +19,9 @@ public class Bike {
     @Column(name="name")
     private String name;
 
-    @Column(name="brand")
-    private String brand;
+    @OneToOne()
+    @JoinColumn(name = "bike_brand_id", referencedColumnName = "id_bike_brand")
+    private BikeBrand bikeBrand;
 
     @Column(name="engine_capacity")
     private Integer engineCapacity;

@@ -8,7 +8,7 @@ import lombok.*;
 public class EditBikeRequest {
     private Long id;
     private String name;
-    private String brand;
+    private Long brandId;
     private Integer engineCapacity;
     private String year;
 }

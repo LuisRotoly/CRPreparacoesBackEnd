@@ -1,7 +1,7 @@
 package com.crpreparacoes.crpreparacoes.controllers;
 
-import com.crpreparacoes.crpreparacoes.bodyrequestinput.clientBikes.CreateClientBikeRequest;
-import com.crpreparacoes.crpreparacoes.bodyrequestinput.clientBikes.EditClientBikeRequest;
+import com.crpreparacoes.crpreparacoes.bodyrequestinput.clientBike.CreateClientBikeRequest;
+import com.crpreparacoes.crpreparacoes.bodyrequestinput.clientBike.EditClientBikeRequest;
 import com.crpreparacoes.crpreparacoes.models.ClientBike;
 import com.crpreparacoes.crpreparacoes.services.ClientBikeService;
 import org.springframework.beans.factory.annotation.Autowired;

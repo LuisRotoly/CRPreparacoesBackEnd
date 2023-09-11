@@ -9,9 +9,16 @@ CREATE TABLE client (
   updated_at datetime
 );
 
+CREATE TABLE bike_brand(
+    id_bike_brand bigint AUTO_INCREMENT PRIMARY KEY,
+    name varchar(100) NOT NULL
+);
+
 CREATE TABLE bike (
   id_bike bigint AUTO_INCREMENT PRIMARY KEY,
   name varchar(100) NOT NULL,
+  bike_brand_id bigint,
+  FOREIGN KEY (bike_brand_id) REFERENCES bike_brand(id_bike_brand),
   brand varchar(100),
   engine_capacity integer,
   `year` varchar(9),
@@ -19,8 +26,8 @@ CREATE TABLE bike (
   updated_at datetime
 );
 
-CREATE TABLE part (
-  id_part bigint AUTO_INCREMENT PRIMARY KEY,
+CREATE TABLE bike_part (
+  id_bike_part bigint AUTO_INCREMENT PRIMARY KEY,
   name varchar(100) NOT NULL,
   `value` double NOT NULL,
   stock_quantity integer NOT NULL,

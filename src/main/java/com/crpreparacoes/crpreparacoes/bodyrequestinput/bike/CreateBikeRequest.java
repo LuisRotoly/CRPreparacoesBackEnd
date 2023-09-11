@@ -7,7 +7,7 @@ import lombok.*;
 @NoArgsConstructor
 public class CreateBikeRequest {
     private String name;
-    private String brand;
+    private Long brandId;
     private Integer engineCapacity;
     private String year;
 }

@@ -1,11 +1,12 @@
-package com.crpreparacoes.crpreparacoes.bodyrequestinput.part;
+package com.crpreparacoes.crpreparacoes.bodyrequestinput.bikePart;
 
 import lombok.*;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreatePartRequest {
+public class EditBikePartRequest {
+    private Long id;
     private String name;
     private Double value;
     private Integer stockQuantity;

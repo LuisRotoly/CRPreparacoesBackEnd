@@ -3,7 +3,6 @@ package com.crpreparacoes.crpreparacoes.controllers;
 import com.crpreparacoes.crpreparacoes.bodyrequestinput.bike.CreateBikeRequest;
 import com.crpreparacoes.crpreparacoes.bodyrequestinput.bike.EditBikeRequest;
 import com.crpreparacoes.crpreparacoes.models.Bike;
-import com.crpreparacoes.crpreparacoes.models.Client;
 import com.crpreparacoes.crpreparacoes.services.BikeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

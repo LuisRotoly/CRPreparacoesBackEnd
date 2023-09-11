@@ -1,4 +1,4 @@
-package com.crpreparacoes.crpreparacoes.bodyrequestinput.clientBikes;
+package com.crpreparacoes.crpreparacoes.bodyrequestinput.clientBike;
 
 import lombok.*;
 
