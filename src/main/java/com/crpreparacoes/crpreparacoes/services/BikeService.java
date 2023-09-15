@@ -45,7 +45,6 @@ public class BikeService {
 
     public void editBikeById(EditBikeRequest editBikeRequest) {
         Bike bike = new Bike();
-        bike.setId(editBikeRequest.getId());
         bike.setName(editBikeRequest.getName());
         bike.setBikeBrand(bikeBrandRepository.findById(Math.toIntExact(editBikeRequest.getBrandId())).get());
         bike.setEngineCapacity(editBikeRequest.getEngineCapacity());

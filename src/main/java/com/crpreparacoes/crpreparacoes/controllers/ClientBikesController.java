@@ -1,5 +1,6 @@
 package com.crpreparacoes.crpreparacoes.controllers;
 
+import com.crpreparacoes.crpreparacoes.DTO.ClientBikeDTO;
 import com.crpreparacoes.crpreparacoes.bodyrequestinput.clientBike.CreateClientBikeRequest;
 import com.crpreparacoes.crpreparacoes.bodyrequestinput.clientBike.EditClientBikeRequest;
 import com.crpreparacoes.crpreparacoes.models.ClientBike;
@@ -19,8 +20,8 @@ public class ClientBikesController {
     /**Método para buscar todas as motos de um cliente
      * @return List<ClientBike> - Lista de clientes
      */
-    @RequestMapping(value="/listClientBike", method = RequestMethod.GET)
-    public @ResponseBody List<ClientBike> listClientBike(@RequestParam Long clientId){
+    @RequestMapping(value="/listClientBikeById", method = RequestMethod.GET)
+    public @ResponseBody List<ClientBikeDTO> listClientBikeById(@RequestParam Long clientId){
         return clientBikesService.listAllClientBikeByClientId(clientId);
     }
 

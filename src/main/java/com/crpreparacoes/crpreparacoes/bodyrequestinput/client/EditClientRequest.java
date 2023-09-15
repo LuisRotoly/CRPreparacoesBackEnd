@@ -1,6 +1,9 @@
 package com.crpreparacoes.crpreparacoes.bodyrequestinput.client;
 
+import com.crpreparacoes.crpreparacoes.DTO.ClientBikeDTO;
 import lombok.*;
+
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -12,4 +15,5 @@ public class EditClientRequest {
     private String address;
     private String phone;
     private String nickname;
+    private List<ClientBikeDTO> clientBikeList;
 }

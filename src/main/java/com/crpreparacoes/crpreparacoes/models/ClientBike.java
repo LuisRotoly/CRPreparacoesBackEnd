@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 public class ClientBike {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_client_bikes")
+    @Column(name = "id_client_bike")
     private Long id;
 
     @OneToOne()

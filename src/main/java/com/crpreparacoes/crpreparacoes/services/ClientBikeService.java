@@ -1,5 +1,6 @@
 package com.crpreparacoes.crpreparacoes.services;
 
+import com.crpreparacoes.crpreparacoes.DTO.ClientBikeDTO;
 import com.crpreparacoes.crpreparacoes.bodyrequestinput.clientBike.CreateClientBikeRequest;
 import com.crpreparacoes.crpreparacoes.bodyrequestinput.clientBike.EditClientBikeRequest;
 import com.crpreparacoes.crpreparacoes.exception.ApiRequestException;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -25,8 +27,14 @@ public class ClientBikeService {
     @ Autowired
     private ClientRepository clientRepository;
 
-    public List<ClientBike> listAllClientBikeByClientId(Long clientId) {
-        return clientBikeRepository.listAllClientBikeByClientId(clientId);
+    public List<ClientBikeDTO> listAllClientBikeByClientId(Long clientId) {
+        List<ClientBike> clientBikeList = clientBikeRepository.listAllClientBikeByClientId(clientId);
+        List<ClientBikeDTO> clientBikeDTOList = new ArrayList<>();
+        for (ClientBike clientBike: clientBikeList) {
+            ClientBikeDTO clientBikeDTO = new ClientBikeDTO(clientBike.getPlate(),clientBike.getBike());
+            clientBikeDTOList.add(clientBikeDTO);
+        }
+        return clientBikeDTOList;
     }
 
     public void addNewClientBike(CreateClientBikeRequest createClientBikeRequest) {
@@ -47,7 +55,6 @@ public class ClientBikeService {
 
     public void editClientBikeById(EditClientBikeRequest editClientBikeRequest) {
         ClientBike clientBike = new ClientBike();
-        clientBike.setId(editClientBikeRequest.getId());
         clientBike.setClient(clientRepository.findById(editClientBikeRequest.getClientId()).get());
         clientBike.setBike(bikeRepository.findById(editClientBikeRequest.getBikeId()).get());
         clientBike.setPlate(editClientBikeRequest.getPlate());

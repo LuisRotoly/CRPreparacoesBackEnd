@@ -40,7 +40,6 @@ public class SupplierService {
 
     public void editSupplierById(EditSupplierRequest editSupplierRequest) {
         Supplier supplier = new Supplier();
-        supplier.setId(editSupplierRequest.getId());
         supplier.setName(editSupplierRequest.getName());
         supplier.setPhone(editSupplierRequest.getPhone());
         supplier.setNotes(editSupplierRequest.getNotes());

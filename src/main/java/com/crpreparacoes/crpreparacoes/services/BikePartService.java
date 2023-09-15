@@ -44,7 +44,6 @@ public class BikePartService {
 
     public void editBikePartById(EditBikePartRequest editBikePartRequest) {
         BikePart bikePart = new BikePart();
-        bikePart.setId(editBikePartRequest.getId());
         bikePart.setName(editBikePartRequest.getName());
         bikePart.setValue(editBikePartRequest.getValue());
         bikePart.setStockQuantity(editBikePartRequest.getStockQuantity());
