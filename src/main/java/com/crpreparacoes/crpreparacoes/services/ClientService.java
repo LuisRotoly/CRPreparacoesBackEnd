@@ -75,15 +75,15 @@ public class ClientService {
         List<ClientBike> clientBikeList = clientBikeRepository.listAllClientBikeByClientId(client.getId());
         List<ClientBikeDTO> clientBikeDTOList = editClientRequest.getClientBikeList();
         for (ClientBike clientBike: clientBikeList) {
-            boolean test = false;
+            boolean matchClientBike = false;
             for (ClientBikeDTO clientBikeDTO : clientBikeDTOList) {
                 if (clientBike.getPlate().equals(clientBikeDTO.getPlate()) && clientBike.getBike().getId() == clientBikeDTO.getBike().getId()) {
-                    test = true;
+                    matchClientBike = true;
                     clientBikeDTOList.remove(clientBikeDTO);
                     break;
                 }
             }
-            if(!test){
+            if(!matchClientBike){
                 clientBikeRepository.delete(clientBike);
             }
         }
