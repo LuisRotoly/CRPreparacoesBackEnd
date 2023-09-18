@@ -3,7 +3,6 @@ package com.crpreparacoes.crpreparacoes.services;
 import com.crpreparacoes.crpreparacoes.DTO.ClientBikeDTO;
 import com.crpreparacoes.crpreparacoes.bodyrequestinput.client.CreateClientRequest;
 import com.crpreparacoes.crpreparacoes.bodyrequestinput.client.EditClientRequest;
-import com.crpreparacoes.crpreparacoes.bodyrequestinput.clientBike.CreateClientBikeRequest;
 import com.crpreparacoes.crpreparacoes.exception.ApiRequestException;
 import com.crpreparacoes.crpreparacoes.models.Client;
 import com.crpreparacoes.crpreparacoes.models.ClientBike;
@@ -13,9 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class ClientService {
@@ -37,15 +34,11 @@ public class ClientService {
         if(clientRepository.findByCpfcnpj(createClientRequest.getCpfcnpj()) != null){
             throw new ApiRequestException("Erro! CPF ou CNPJ do cliente já existe!");
         }
-        /*
-        Faço a verificação primeiro e altero o método addNewClientBike do ClientBikeService ou deixo do jeito que está(se for do jeito que está eu posso até arrumar os parametros pra não ficar essa loucura que está)?
-
         for(ClientBikeDTO clientBike: createClientRequest.getClientBikeList()) {
             if (clientBikeRepository.findByPlate(clientBike.getPlate()) != null) {
                 throw new ApiRequestException("Erro! Placa já cadastrada!");
             }
         }
-        */
         Client client = new Client();
         client.setName(createClientRequest.getName());
         client.setCpfcnpj(createClientRequest.getCpfcnpj());
@@ -59,11 +52,7 @@ public class ClientService {
             throw new ApiRequestException("Erro ao tentar adicionar o cliente!");
         }
         for(ClientBikeDTO clientBike: createClientRequest.getClientBikeList()) {
-            CreateClientBikeRequest createClientBikeRequest = new CreateClientBikeRequest();
-            createClientBikeRequest.setClientId(Math.toIntExact(client.getId()));
-            createClientBikeRequest.setBikeId(Math.toIntExact(clientBike.getBike().getId()));
-            createClientBikeRequest.setPlate(clientBike.getPlate());
-            clientBikeService.addNewClientBike(createClientBikeRequest);
+            clientBikeService.addNewClientBike(Math.toIntExact(client.getId()),Math.toIntExact(clientBike.getBike().getId()),clientBike.getPlate());
         }
     }
 
@@ -73,6 +62,7 @@ public class ClientService {
         if(!editClientRequest.getCpfcnpj().equals(client.getCpfcnpj())){
             client.setCpfcnpj(editClientRequest.getCpfcnpj());
         }
+        client.setCreatedAt(client.getCreatedAt());
         client.setAddress(editClientRequest.getAddress());
         client.setPhone(editClientRequest.getPhone());
         client.setNickname(editClientRequest.getNickname());
@@ -98,11 +88,7 @@ public class ClientService {
             }
         }
         for(ClientBikeDTO clientBikeDTO : clientBikeDTOList){
-            CreateClientBikeRequest createClientBikeRequest = new CreateClientBikeRequest();
-            createClientBikeRequest.setClientId(Math.toIntExact(editClientRequest.getId()));
-            createClientBikeRequest.setBikeId(Math.toIntExact(clientBikeDTO.getBike().getId()));
-            createClientBikeRequest.setPlate(clientBikeDTO.getPlate());
-            clientBikeService.addNewClientBike(createClientBikeRequest);
+            clientBikeService.addNewClientBike(Math.toIntExact(editClientRequest.getId()),Math.toIntExact(clientBikeDTO.getBike().getId()),clientBikeDTO.getPlate());
         }
     }
 

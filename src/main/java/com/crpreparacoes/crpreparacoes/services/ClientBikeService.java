@@ -1,8 +1,6 @@
 package com.crpreparacoes.crpreparacoes.services;
 
 import com.crpreparacoes.crpreparacoes.DTO.ClientBikeDTO;
-import com.crpreparacoes.crpreparacoes.bodyrequestinput.clientBike.CreateClientBikeRequest;
-import com.crpreparacoes.crpreparacoes.bodyrequestinput.clientBike.EditClientBikeRequest;
 import com.crpreparacoes.crpreparacoes.exception.ApiRequestException;
 import com.crpreparacoes.crpreparacoes.models.ClientBike;
 import com.crpreparacoes.crpreparacoes.repositories.BikeRepository;
@@ -37,32 +35,16 @@ public class ClientBikeService {
         return clientBikeDTOList;
     }
 
-    public void addNewClientBike(CreateClientBikeRequest createClientBikeRequest) {
-        if(clientBikeRepository.findByPlate(createClientBikeRequest.getPlate()) != null){
-            throw new ApiRequestException("Erro! Essa moto do cliente já existe!");
-        }
+    public void addNewClientBike(Integer clienteId, Integer bikeId, String plate) {
         ClientBike clientBike = new ClientBike();
-        clientBike.setClient(clientRepository.findById(createClientBikeRequest.getClientId()).get());
-        clientBike.setBike(bikeRepository.findById(createClientBikeRequest.getBikeId()).get());
-        clientBike.setPlate(createClientBikeRequest.getPlate());
+        clientBike.setClient(clientRepository.findById(clienteId).get());
+        clientBike.setBike(bikeRepository.findById(bikeId).get());
+        clientBike.setPlate(plate);
         clientBike.setCreatedAt(LocalDateTime.now());
         try {
             clientBikeRepository.save(clientBike);
         }catch(Exception Error){
             throw new ApiRequestException("Erro ao tentar adicionar uma moto do cliente!");
-        }
-    }
-
-    public void editClientBikeById(EditClientBikeRequest editClientBikeRequest) {
-        ClientBike clientBike = new ClientBike();
-        clientBike.setClient(clientRepository.findById(editClientBikeRequest.getClientId()).get());
-        clientBike.setBike(bikeRepository.findById(editClientBikeRequest.getBikeId()).get());
-        clientBike.setPlate(editClientBikeRequest.getPlate());
-        clientBike.setUpdatedAt(LocalDateTime.now());
-        try {
-            clientBikeRepository.save(clientBike);
-        }catch(Exception Error){
-            throw new ApiRequestException("Erro ao tentar editar uma moto do cliente!");
         }
     }
 }
