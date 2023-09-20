@@ -52,12 +52,12 @@ public class ClientService {
             throw new ApiRequestException("Erro ao tentar adicionar o cliente!");
         }
         for(ClientBikeDTO clientBike: createClientRequest.getClientBikeList()) {
-            clientBikeService.addNewClientBike(Math.toIntExact(client.getId()),Math.toIntExact(clientBike.getBike().getId()),clientBike.getPlate());
+            clientBikeService.addNewClientBike(client.getId(), clientBike.getBike().getId(),clientBike.getPlate());
         }
     }
 
     public void editClientById(EditClientRequest editClientRequest) {
-        Client client = clientRepository.findById(Math.toIntExact(editClientRequest.getId())).get();
+        Client client = clientRepository.findById(editClientRequest.getId()).get();
         client.setName(editClientRequest.getName());
         if(!editClientRequest.getCpfcnpj().equals(client.getCpfcnpj())){
             client.setCpfcnpj(editClientRequest.getCpfcnpj());
@@ -88,12 +88,12 @@ public class ClientService {
             }
         }
         for(ClientBikeDTO clientBikeDTO : clientBikeDTOList){
-            clientBikeService.addNewClientBike(Math.toIntExact(editClientRequest.getId()),Math.toIntExact(clientBikeDTO.getBike().getId()),clientBikeDTO.getPlate());
+            clientBikeService.addNewClientBike(editClientRequest.getId(), clientBikeDTO.getBike().getId(),clientBikeDTO.getPlate());
         }
     }
 
     public Client listClientById(Long id) {
-        return clientRepository.findById(Math.toIntExact(id)).get();
+        return clientRepository.findById(id).get();
     }
 
     public List<Client> filterListClients(String word) {

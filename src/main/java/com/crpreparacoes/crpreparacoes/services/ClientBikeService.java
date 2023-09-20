@@ -35,7 +35,7 @@ public class ClientBikeService {
         return clientBikeDTOList;
     }
 
-    public void addNewClientBike(Integer clienteId, Integer bikeId, String plate) {
+    public void addNewClientBike(Long clienteId, Long bikeId, String plate) {
         ClientBike clientBike = new ClientBike();
         clientBike.setClient(clientRepository.findById(clienteId).get());
         clientBike.setBike(bikeRepository.findById(bikeId).get());

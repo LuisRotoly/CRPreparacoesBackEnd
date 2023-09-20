@@ -4,7 +4,6 @@ import com.crpreparacoes.crpreparacoes.bodyrequestinput.bike.CreateBikeRequest;
 import com.crpreparacoes.crpreparacoes.bodyrequestinput.bike.EditBikeRequest;
 import com.crpreparacoes.crpreparacoes.exception.ApiRequestException;
 import com.crpreparacoes.crpreparacoes.models.Bike;
-import com.crpreparacoes.crpreparacoes.models.BikeBrand;
 import com.crpreparacoes.crpreparacoes.repositories.BikeBrandRepository;
 import com.crpreparacoes.crpreparacoes.repositories.BikeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +31,7 @@ public class BikeService {
         }
         Bike bike = new Bike();
         bike.setName(createBikeRequest.getName());
-        bike.setBikeBrand(bikeBrandRepository.findById(Math.toIntExact(createBikeRequest.getBrandId())).get());
+        bike.setBikeBrand(bikeBrandRepository.findById(createBikeRequest.getBrandId()).get());
         bike.setEngineCapacity(createBikeRequest.getEngineCapacity());
         bike.setYear(createBikeRequest.getYear());
         bike.setCreatedAt(LocalDateTime.now());
@@ -46,7 +45,7 @@ public class BikeService {
     public void editBikeById(EditBikeRequest editBikeRequest) {
         Bike bike = new Bike();
         bike.setName(editBikeRequest.getName());
-        bike.setBikeBrand(bikeBrandRepository.findById(Math.toIntExact(editBikeRequest.getBrandId())).get());
+        bike.setBikeBrand(bikeBrandRepository.findById(editBikeRequest.getBrandId()).get());
         bike.setEngineCapacity(editBikeRequest.getEngineCapacity());
         bike.setYear(editBikeRequest.getYear());
         bike.setUpdatedAt(LocalDateTime.now());
@@ -62,6 +61,6 @@ public class BikeService {
     }
 
     public Bike listBikeById(Long id) {
-        return bikeRepository.findById(Math.toIntExact(id)).get();
+        return bikeRepository.findById(id).get();
     }
 }

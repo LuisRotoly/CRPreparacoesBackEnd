@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface BikeBrandRepository extends CrudRepository<BikeBrand, Integer> {
+public interface BikeBrandRepository extends CrudRepository<BikeBrand, Long> {
 
     @Query(value = "SELECT b FROM BikeBrand b")
     List<BikeBrand> listAllBikeBrands();

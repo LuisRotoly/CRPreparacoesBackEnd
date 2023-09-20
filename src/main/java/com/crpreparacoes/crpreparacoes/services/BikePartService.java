@@ -61,6 +61,6 @@ public class BikePartService {
     }
 
     public BikePart listBikePartById(Long id) {
-        return bikePartRepository.findById(Math.toIntExact(id)).get();
+        return bikePartRepository.findById(id).get();
     }
 }

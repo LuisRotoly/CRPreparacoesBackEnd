@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface ClientBikeRepository extends CrudRepository<ClientBike, Integer> {
+public interface ClientBikeRepository extends CrudRepository<ClientBike, Long> {
 
     @Query(value = "SELECT cb FROM ClientBike cb WHERE cb.client.id = :clientId")
     List<ClientBike> listAllClientBikeByClientId(Long clientId);
