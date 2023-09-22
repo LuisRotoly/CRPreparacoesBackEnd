@@ -56,6 +56,54 @@
 					</excludes>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>com.github.eirslett</groupId>
+				<artifactId>frontend-maven-plugin</artifactId>
+				<version>1.12.1</version>
+
+				<executions>
+					<!-- installing node and npm -->
+					<execution>
+						<id>Install node and npm</id>
+						<goals>
+							<goal>install-node-and-npm</goal>
+						</goals>
+						<phase>generate-resources</phase>
+						<configuration>
+							<nodeVersion>v18.12.1</nodeVersion>
+							<npmVersion>8.19.2</npmVersion>
+						</configuration>
+					</execution>
+        </executions>
+        <configuration>
+            <nodeVersion>v18.12.1</nodeVersion>
+            <workingDirectory>src/main/CRPreparacoesFrontEnd</workingDirectory>
+        </configuration>
+    </plugin>
+
+    <!-- copy our react build artifacts to spring boot -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>Copy JavaScript app into SpringBoot</id>
+						<phase>process-resources</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>target/classes/static</outputDirectory>
+							<resources>
+								<resource>
+									<directory>src/main/CRPreparacoesFrontEnd/build</directory>
+									<filtering>true</filtering>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
 

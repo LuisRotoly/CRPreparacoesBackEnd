@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface SupplierRepository extends CrudRepository<Supplier, Integer> {
+public interface SupplierRepository extends CrudRepository<Supplier, Long> {
 
     @Query(value = "SELECT s FROM Supplier s WHERE s.name = :name")
     Supplier findByName(String name);

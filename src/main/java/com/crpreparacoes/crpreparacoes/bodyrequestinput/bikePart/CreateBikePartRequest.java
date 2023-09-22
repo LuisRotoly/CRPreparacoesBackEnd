@@ -9,5 +9,5 @@ public class CreateBikePartRequest {
     private String name;
     private Double value;
     private Integer stockQuantity;
-    private Integer bikeId;
+    private Long bikeId;
 }

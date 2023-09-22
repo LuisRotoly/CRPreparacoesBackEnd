@@ -3,7 +3,6 @@ package com.crpreparacoes.crpreparacoes.services;
 import com.crpreparacoes.crpreparacoes.bodyrequestinput.supplier.CreateSupplierRequest;
 import com.crpreparacoes.crpreparacoes.bodyrequestinput.supplier.EditSupplierRequest;
 import com.crpreparacoes.crpreparacoes.exception.ApiRequestException;
-import com.crpreparacoes.crpreparacoes.models.Bike;
 import com.crpreparacoes.crpreparacoes.models.Supplier;
 import com.crpreparacoes.crpreparacoes.repositories.SupplierRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,6 +56,6 @@ public class SupplierService {
     }
 
     public Supplier listSupplierById(Long id) {
-        return supplierRepository.findById(Math.toIntExact(id)).get();
+        return supplierRepository.findById(id).get();
     }
 }
