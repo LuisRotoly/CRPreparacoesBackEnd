@@ -89,14 +89,8 @@ public class BudgetService {
         Budget budget = budgetRepository.findById(editBudgetRequest.getId()).get();
         budget.setStatus(statusRepository.findByDescription(editBudgetRequest.getStatus()));
         budget.setUpdatedAt(LocalDateTime.now());
-        budget.setTotalValue(editBudgetRequest.getTotalValue());
         try {
             budgetRepository.save(budget);
-            laborOrBikePartBudgetRepository.deleteAllByBudgetId(budget.getId());
-            for(LaborOrBikePartBudget laborOrBikePartBudget : editBudgetRequest.getLaborOrBikePartBudgetList()){
-                laborOrBikePartBudget.setBudget(budget);
-                laborOrBikePartBudgetRepository.save(laborOrBikePartBudget);
-            }
         }catch(Exception Error){
             throw new ApiRequestException("Erro ao tentar editar o orçamento!");
         }

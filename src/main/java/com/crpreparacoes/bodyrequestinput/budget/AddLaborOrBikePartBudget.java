@@ -1,5 +1,6 @@
 package com.crpreparacoes.bodyrequestinput.budget;
 
+import com.crpreparacoes.models.LaborOrBikePartBudget;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -7,7 +8,6 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class EditBudgetRequest {
-    private Long id;
-    private String status;
+public class AddLaborOrBikePartBudget {
+    private LaborOrBikePartBudget laborOrBikePartBudget;
 }
