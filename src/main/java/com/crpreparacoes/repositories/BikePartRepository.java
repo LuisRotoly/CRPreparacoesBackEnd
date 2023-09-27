@@ -18,4 +18,7 @@ public interface BikePartRepository extends CrudRepository<BikePart, Long> {
 
     @Query(value = "SELECT p FROM BikePart p JOIN p.bike b WHERE p.name LIKE %:word% OR b.name LIKE %:word% OR b.bikeBrand.name LIKE %:word%")
     List<BikePart> filterListBikes(String word);
+
+    @Query(value = "SELECT p FROM BikePart p WHERE p.bike.id = :bikeId")
+    List<BikePart> listBikePartByBikeId(Long bikeId);
 }

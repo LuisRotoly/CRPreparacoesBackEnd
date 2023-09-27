@@ -10,8 +10,8 @@ CREATE TABLE client (
 );
 
 CREATE TABLE bike_brand(
-    id_bike_brand bigint AUTO_INCREMENT PRIMARY KEY,
-    name varchar(100) NOT NULL
+  id_bike_brand bigint AUTO_INCREMENT PRIMARY KEY,
+  name varchar(100) NOT NULL
 );
 
 CREATE TABLE bike (

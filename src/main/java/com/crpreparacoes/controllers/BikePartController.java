@@ -40,6 +40,14 @@ public class BikePartController {
         return bikePartService.listBikePartById(id);
     }
 
+    /**Método para buscar todas as peças pela placa
+     * @return List<BikePart> - Lista de peças
+     */
+    @RequestMapping(value="/listBikePartByPlate", method = RequestMethod.GET)
+    public @ResponseBody List<BikePart> listBikePartByPlate(@RequestParam String plate){
+        return bikePartService.listBikePartByPlate(plate);
+    }
+
     /**Método para adicionar uma peça
      */
     @RequestMapping(value="/addBikePart", method = RequestMethod.POST)
