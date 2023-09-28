@@ -25,7 +25,6 @@ CREATE TABLE budget (
   engine_capacity integer,
   `year` varchar(9),
   plate varchar(8),
-  total_value double,
   status_id bigint,
   FOREIGN KEY (status_id) REFERENCES status(id_status),
   created_at datetime,

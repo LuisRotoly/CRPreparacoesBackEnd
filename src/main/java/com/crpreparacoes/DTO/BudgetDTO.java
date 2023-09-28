@@ -2,7 +2,6 @@ package com.crpreparacoes.DTO;
 
 import com.crpreparacoes.models.Client;
 import com.crpreparacoes.models.LaborOrBikePartBudget;
-import com.crpreparacoes.models.Status;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

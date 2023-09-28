@@ -1,12 +1,10 @@
 package com.crpreparacoes.services;
 
 import com.crpreparacoes.DTO.BudgetDTO;
-import com.crpreparacoes.DTO.ClientBikeDTO;
 import com.crpreparacoes.bodyrequestinput.budget.CreateBudgetRequest;
 import com.crpreparacoes.bodyrequestinput.budget.EditBudgetRequest;
 import com.crpreparacoes.exception.ApiRequestException;
 import com.crpreparacoes.models.Budget;
-import com.crpreparacoes.models.ClientBike;
 import com.crpreparacoes.models.LaborOrBikePartBudget;
 import com.crpreparacoes.models.Status;
 import com.crpreparacoes.repositories.BudgetRepository;
@@ -14,7 +12,6 @@ import com.crpreparacoes.repositories.ClientRepository;
 import com.crpreparacoes.repositories.LaborOrBikePartBudgetRepository;
 import com.crpreparacoes.repositories.StatusRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -56,8 +53,16 @@ public class BudgetService {
         budgetDTO.setLaborOrBikePartBudgetList(laborOrBikePartBudgetList);
         budgetDTO.setStatus(budget.getStatus().getDescription());
         budgetDTO.setCreatedAt(budget.getCreatedAt());
-        budgetDTO.setTotalValue(budget.getTotalValue());
+        budgetDTO.setTotalValue(sumLaborOrBikePartBudgetValue(laborOrBikePartBudgetList));
         return budgetDTO;
+    }
+
+    private double sumLaborOrBikePartBudgetValue(List<LaborOrBikePartBudget> laborOrBikePartBudgetList){
+        double sum = 0;
+        for (LaborOrBikePartBudget laborOrBikePartBudget : laborOrBikePartBudgetList) {
+            sum = sum + (laborOrBikePartBudget.getQuantity()*laborOrBikePartBudget.getValue());
+        }
+        return sum;
     }
 
     public void addNewBudget(CreateBudgetRequest createBudgetRequest) {
@@ -73,7 +78,6 @@ public class BudgetService {
         budget.setPlate(createBudgetRequest.getPlate());
         budget.setStatus(statusRepository.findByDescription(createBudgetRequest.getStatus()));
         budget.setCreatedAt(LocalDateTime.now());
-        budget.setTotalValue(createBudgetRequest.getTotalValue());
         try {
             budgetRepository.save(budget);
             for (LaborOrBikePartBudget laborOrBikePartBudget: createBudgetRequest.getLaborOrBikePartBudgetList()) {

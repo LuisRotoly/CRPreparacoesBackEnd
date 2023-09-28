@@ -42,9 +42,6 @@ public class Budget {
     @JoinColumn(name="status_id", referencedColumnName = "id_status")
     private Status status;
 
-    @Column(name="total_value")
-    private double totalValue;
-
     @Column(name="created_at")
     private LocalDateTime createdAt;
 

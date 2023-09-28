@@ -19,5 +19,4 @@ public class CreateBudgetRequest {
     private String year;
     private List<LaborOrBikePartBudget> laborOrBikePartBudgetList;
     private String status;
-    private double totalValue;
 }

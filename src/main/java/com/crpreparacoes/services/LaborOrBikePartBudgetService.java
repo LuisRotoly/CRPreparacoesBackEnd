@@ -27,8 +27,7 @@ public class LaborOrBikePartBudgetService {
 
     public double addLaborOrBikePartBudget(AddLaborOrBikePartBudget addLaborOrBikePartBudget) {
         Budget budget = budgetRepository.findById(addLaborOrBikePartBudget.getLaborOrBikePartBudget().getBudget().getId()).get();
-        double totalValue = budget.getTotalValue() + (addLaborOrBikePartBudget.getLaborOrBikePartBudget().getQuantity()*addLaborOrBikePartBudget.getLaborOrBikePartBudget().getValue());
-        budget.setTotalValue(totalValue);
+        double totalValue = sumLaborOrBikePartBudgetValue(laborOrBikePartBudgetRepository.findAllLaborOrBikePartBudgetById(addLaborOrBikePartBudget.getLaborOrBikePartBudget().getBudget().getId()));
         budget.setUpdatedAt(LocalDateTime.now());
         try {
             laborOrBikePartBudgetRepository.save(addLaborOrBikePartBudget.getLaborOrBikePartBudget());
@@ -36,14 +35,13 @@ public class LaborOrBikePartBudgetService {
         }catch(Exception Error){
             throw new ApiRequestException("Erro ao tentar adicionar o serviço!");
         }
-        return totalValue;
+        return totalValue + (addLaborOrBikePartBudget.getLaborOrBikePartBudget().getQuantity()*addLaborOrBikePartBudget.getLaborOrBikePartBudget().getValue());
     }
 
     public double removeLaborOrBikePartBudget(Long id) {
         LaborOrBikePartBudget laborOrBikePartBudget = laborOrBikePartBudgetRepository.findById(id).get();
         Budget budget = budgetRepository.findById(laborOrBikePartBudget.getBudget().getId()).get();
-        double totalValue = budget.getTotalValue() - (laborOrBikePartBudget.getQuantity()*laborOrBikePartBudget.getValue());
-        budget.setTotalValue(totalValue);
+        double totalValue = sumLaborOrBikePartBudgetValue(laborOrBikePartBudgetRepository.findAllLaborOrBikePartBudgetById(laborOrBikePartBudget.getBudget().getId()));
         budget.setUpdatedAt(LocalDateTime.now());
         try {
             laborOrBikePartBudgetRepository.delete(laborOrBikePartBudget);
@@ -51,6 +49,14 @@ public class LaborOrBikePartBudgetService {
         }catch(Exception Error){
             throw new ApiRequestException("Erro ao tentar remover o serviço!");
         }
-        return totalValue;
+        return totalValue - (laborOrBikePartBudget.getQuantity()*laborOrBikePartBudget.getValue());
+    }
+
+    private double sumLaborOrBikePartBudgetValue(List<LaborOrBikePartBudget> laborOrBikePartBudgetList){
+        double sum = 0;
+        for (LaborOrBikePartBudget laborOrBikePartBudget : laborOrBikePartBudgetList) {
+            sum = sum + (laborOrBikePartBudget.getQuantity()*laborOrBikePartBudget.getValue());
+        }
+        return sum;
     }
 }
