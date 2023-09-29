@@ -10,12 +10,12 @@ import java.util.List;
 @Repository
 public interface BikeRepository extends CrudRepository<Bike, Long> {
 
-    @Query(value = "SELECT b FROM Bike b")
+    @Query(value = "SELECT b FROM Bike b ORDER BY b.name")
     List<Bike> listAllBikes();
 
     @Query(value = "SELECT b FROM Bike b JOIN b.bikeBrand br WHERE b.name = :name AND br.id = :brandId AND b.year = :year AND b.engineCapacity = :engineCapacity")
     Bike findBikeExists(String name, Long brandId, String year, Integer engineCapacity);
 
-    @Query(value = "SELECT b FROM Bike b JOIN b.bikeBrand br WHERE b.name LIKE %:word% OR br.name LIKE %:word%")
+    @Query(value = "SELECT b FROM Bike b JOIN b.bikeBrand br WHERE b.name LIKE %:word% OR br.name LIKE %:word% ORDER BY b.name")
     List<Bike> filterListBikes(String word);
 }

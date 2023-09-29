@@ -10,6 +10,6 @@ import java.util.List;
 @Repository
 public interface BikeBrandRepository extends CrudRepository<BikeBrand, Long> {
 
-    @Query(value = "SELECT b FROM BikeBrand b")
+    @Query(value = "SELECT b FROM BikeBrand b ORDER BY b.name")
     List<BikeBrand> listAllBikeBrands();
 }

@@ -4,8 +4,10 @@ import com.crpreparacoes.bodyrequestinput.bikePart.CreateBikePartRequest;
 import com.crpreparacoes.bodyrequestinput.bikePart.EditBikePartRequest;
 import com.crpreparacoes.exception.ApiRequestException;
 import com.crpreparacoes.models.BikePart;
+import com.crpreparacoes.models.ClientBike;
 import com.crpreparacoes.repositories.BikeRepository;
 import com.crpreparacoes.repositories.BikePartRepository;
+import com.crpreparacoes.repositories.ClientBikeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +22,9 @@ public class BikePartService {
 
     @Autowired
     private BikeRepository bikeRepository;
+
+    @Autowired
+    private ClientBikeRepository clientBikeRepository;
 
     public List<BikePart> listAllBikeParts() {
         return bikePartRepository.listAllBikeParts();
@@ -63,5 +68,10 @@ public class BikePartService {
 
     public BikePart listBikePartById(Long id) {
         return bikePartRepository.findById(id).get();
+    }
+
+    public List<BikePart> listBikePartByPlate(String plate) {
+        ClientBike clientBike = clientBikeRepository.findByPlate(plate);
+        return bikePartRepository.listBikePartByBikeId(clientBike.getBike().getId());
     }
 }

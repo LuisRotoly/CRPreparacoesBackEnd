@@ -10,12 +10,12 @@ import java.util.List;
 @Repository
 public interface ClientRepository extends CrudRepository<Client, Long> {
 
-    @Query(value = "SELECT c FROM Client c")
+    @Query(value = "SELECT c FROM Client c ORDER BY c.name")
     List<Client> listAllClients();
 
     @Query(value = "SELECT c FROM Client c WHERE c.cpfcnpj = :cpfcnpj")
     Client findByCpfcnpj(String cpfcnpj);
 
-    @Query(value = "SELECT c FROM Client c WHERE c.name LIKE %:word% OR c.nickname LIKE %:word% OR c.cpfcnpj LIKE %:word%")
+    @Query(value = "SELECT c FROM Client c WHERE c.name LIKE %:word% OR c.nickname LIKE %:word% OR c.cpfcnpj LIKE %:word% ORDER BY c.name")
     List<Client> filterListClients(String word);
 }
