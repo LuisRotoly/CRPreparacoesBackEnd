@@ -1,5 +1,6 @@
 package com.crpreparacoes.controllers;
 
+import com.crpreparacoes.DTO.BikePartDTO;
 import com.crpreparacoes.bodyrequestinput.bikePart.CreateBikePartRequest;
 import com.crpreparacoes.bodyrequestinput.bikePart.EditBikePartRequest;
 import com.crpreparacoes.models.BikePart;
@@ -33,10 +34,10 @@ public class BikePartController {
     }
 
     /**Método para buscar uma peça
-     * @return BikePart - Peça
+     * @return BikePartDTO - Peça
      */
     @RequestMapping(value="/listBikePartById", method = RequestMethod.GET)
-    public @ResponseBody BikePart listBikePartById(@RequestParam Long id){
+    public @ResponseBody BikePartDTO listBikePartById(@RequestParam Long id){
         return bikePartService.listBikePartById(id);
     }
 

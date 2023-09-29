@@ -1,0 +1,1 @@
+ALTER TABLE bike_part ADD profit_percentage INTEGER;

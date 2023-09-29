@@ -1,5 +1,6 @@
 package com.crpreparacoes.services;
 
+import com.crpreparacoes.DTO.BikePartDTO;
 import com.crpreparacoes.bodyrequestinput.bikePart.CreateBikePartRequest;
 import com.crpreparacoes.bodyrequestinput.bikePart.EditBikePartRequest;
 import com.crpreparacoes.exception.ApiRequestException;
@@ -37,6 +38,7 @@ public class BikePartService {
         BikePart bikePart = new BikePart();
         bikePart.setName(createBikePartRequest.getName());
         bikePart.setValue(createBikePartRequest.getValue());
+        bikePart.setProfitPercentage(createBikePartRequest.getProfitPercentage());
         bikePart.setStockQuantity(createBikePartRequest.getStockQuantity());
         bikePart.setBike(bikeRepository.findById(createBikePartRequest.getBikeId()).get());
         bikePart.setCreatedAt(LocalDateTime.now());
@@ -52,6 +54,7 @@ public class BikePartService {
         bikePart.setId(editBikePartRequest.getId());
         bikePart.setName(editBikePartRequest.getName());
         bikePart.setValue(editBikePartRequest.getValue());
+        bikePart.setProfitPercentage(editBikePartRequest.getProfitPercentage());
         bikePart.setStockQuantity(editBikePartRequest.getStockQuantity());
         bikePart.setBike(bikeRepository.findById(editBikePartRequest.getBikeId()).get());
         bikePart.setUpdatedAt(LocalDateTime.now());
@@ -66,8 +69,16 @@ public class BikePartService {
         return bikePartRepository.filterListBikes(word);
     }
 
-    public BikePart listBikePartById(Long id) {
-        return bikePartRepository.findById(id).get();
+    public BikePartDTO listBikePartById(Long id) {
+        BikePart bikePart = bikePartRepository.findById(id).get();
+        BikePartDTO bikePartDTO = new BikePartDTO();
+        bikePartDTO.setName(bikePart.getName());
+        bikePartDTO.setValue(bikePart.getValue());
+        bikePartDTO.setProfitPercentage(bikePart.getProfitPercentage());
+        bikePartDTO.setStockQuantity(bikePart.getStockQuantity());
+        bikePartDTO.setBike(bikePart.getBike());
+        bikePartDTO.setFinalValue(bikePart.getValue() + (bikePart.getValue()*bikePart.getProfitPercentage())/100);
+        return bikePartDTO;
     }
 
     public List<BikePart> listBikePartByPlate(String plate) {

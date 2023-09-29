@@ -22,6 +22,9 @@ public class BikePart {
     @Column(name="value")
     private Double value;
 
+    @Column(name="profit_percentage")
+    private Double profitPercentage;
+
     @Column(name="stock_quantity")
     private Integer stockQuantity;
 

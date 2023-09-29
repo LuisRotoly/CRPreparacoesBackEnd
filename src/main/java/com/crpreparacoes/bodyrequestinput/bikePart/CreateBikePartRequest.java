@@ -8,6 +8,7 @@ import lombok.*;
 public class CreateBikePartRequest {
     private String name;
     private Double value;
+    private Double profitPercentage;
     private Integer stockQuantity;
     private Long bikeId;
 }
