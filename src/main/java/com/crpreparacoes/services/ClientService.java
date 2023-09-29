@@ -42,8 +42,11 @@ public class ClientService {
         Client client = new Client();
         client.setName(createClientRequest.getName());
         client.setCpfcnpj(createClientRequest.getCpfcnpj());
-        client.setAddress(createClientRequest.getAddress());
+        client.setCep(createClientRequest.getCep());
+        client.setAddressNumber(createClientRequest.getAddressNumber());
         client.setPhone(createClientRequest.getPhone());
+        client.setOptionalPhone(createClientRequest.getOptionalPhone());
+        client.setNotes(createClientRequest.getNotes());
         client.setNickname(createClientRequest.getNickname());
         client.setCreatedAt(LocalDateTime.now());
         try {
@@ -63,8 +66,11 @@ public class ClientService {
             client.setCpfcnpj(editClientRequest.getCpfcnpj());
         }
         client.setCreatedAt(client.getCreatedAt());
-        client.setAddress(editClientRequest.getAddress());
+        client.setCep(editClientRequest.getCep());
+        client.setAddressNumber(editClientRequest.getAddressNumber());
         client.setPhone(editClientRequest.getPhone());
+        client.setOptionalPhone(editClientRequest.getOptionalPhone());
+        client.setNotes(editClientRequest.getNotes());
         client.setNickname(editClientRequest.getNickname());
         client.setUpdatedAt(LocalDateTime.now());
         try {
