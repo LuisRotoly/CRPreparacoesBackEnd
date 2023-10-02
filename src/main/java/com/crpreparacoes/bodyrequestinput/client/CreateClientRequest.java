@@ -12,8 +12,11 @@ import java.util.List;
 public class CreateClientRequest {
     private String name;
     private String cpfcnpj;
-    private String address;
+    private String cep;
+    private String addressNumber;
     private String phone;
+    private String optionalPhone;
+    private String notes;
     private String nickname;
     private List<ClientBikeDTO> clientBikeList;
 }

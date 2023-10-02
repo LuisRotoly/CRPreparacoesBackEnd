@@ -22,14 +22,23 @@ public class Client {
     @Column(name="cpfcnpj")
     private String cpfcnpj;
 
-    @Column(name="address")
-    private String address;
+    @Column(name="cep")
+    private String cep;
+
+    @Column(name="address_number")
+    private String addressNumber;
 
     @Column(name="phone")
     private String phone;
 
+    @Column(name="optional_phone")
+    private String optionalPhone;
+
     @Column(name="nickname")
     private String nickname;
+
+    @Column(name="notes")
+    private String notes;
 
     @Column(name="created_at")
     private LocalDateTime createdAt;

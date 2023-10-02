@@ -1,3 +1,9 @@
+ALTER TABLE client DROP address;
+ALTER TABLE client ADD cep varchar(9),
+ADD address_number varchar(6),
+ADD optional_phone varchar(14),
+ADD notes varchar(255);
+
 ALTER TABLE bike_part ADD profit_percentage INTEGER;
 ALTER TABLE bike_part DROP FOREIGN KEY bike_part_ibfk_1,
 DROP COLUMN bike_id;
