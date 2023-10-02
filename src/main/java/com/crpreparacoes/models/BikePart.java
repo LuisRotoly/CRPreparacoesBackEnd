@@ -33,8 +33,4 @@ public class BikePart {
 
     @Column(name="updated_at")
     private LocalDateTime updatedAt;
-
-    @OneToOne()
-    @JoinColumn(name = "bike_id", referencedColumnName = "id_bike")
-    private Bike bike;
 }
