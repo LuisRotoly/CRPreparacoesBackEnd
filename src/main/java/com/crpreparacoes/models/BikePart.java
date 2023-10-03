@@ -22,6 +22,9 @@ public class BikePart {
     @Column(name="value")
     private Double value;
 
+    @Column(name="profit_percentage")
+    private Double profitPercentage;
+
     @Column(name="stock_quantity")
     private Integer stockQuantity;
 
@@ -30,8 +33,4 @@ public class BikePart {
 
     @Column(name="updated_at")
     private LocalDateTime updatedAt;
-
-    @OneToOne()
-    @JoinColumn(name = "bike_id", referencedColumnName = "id_bike")
-    private Bike bike;
 }
