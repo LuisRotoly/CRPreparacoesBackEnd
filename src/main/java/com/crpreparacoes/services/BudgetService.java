@@ -47,9 +47,12 @@ public class BudgetService {
         budgetDTO.setBikeBrand(budget.getBikeBrand());
         budgetDTO.setEngineCapacity(budget.getEngineCapacity());
         budgetDTO.setYear(budget.getYear());
+        budgetDTO.setPayment(budget.getPayment());
+        budgetDTO.setKilometers(budget.getKilometers());
         budgetDTO.setPlate(budget.getPlate());
         budgetDTO.setLaborOrBikePartBudgetList(laborOrBikePartBudgetList);
         budgetDTO.setStatus(budget.getStatus().getDescription());
+        budgetDTO.setNotes(budget.getNotes());
         budgetDTO.setCreatedAt(budget.getCreatedAt());
         budgetDTO.setTotalValue(sumLaborOrBikePartBudgetValue(laborOrBikePartBudgetList));
         return budgetDTO;
@@ -73,8 +76,11 @@ public class BudgetService {
         budget.setBikeBrand(createBudgetRequest.getBikeBrand());
         budget.setEngineCapacity(createBudgetRequest.getEngineCapacity());
         budget.setYear(createBudgetRequest.getYear());
+        budget.setPayment(createBudgetRequest.getPayment());
+        budget.setKilometers(createBudgetRequest.getKilometers());
         budget.setPlate(createBudgetRequest.getPlate());
         budget.setStatus(statusRepository.findByDescription(createBudgetRequest.getStatus()));
+        budget.setNotes(createBudgetRequest.getNotes());
         budget.setCreatedAt(LocalDateTime.now());
         try {
             budgetRepository.save(budget);
@@ -89,7 +95,9 @@ public class BudgetService {
 
     public void editBudgetById(EditBudgetRequest editBudgetRequest) {
         Budget budget = budgetRepository.findById(editBudgetRequest.getId()).get();
+        budget.setPayment(editBudgetRequest.getPayment());
         budget.setStatus(statusRepository.findByDescription(editBudgetRequest.getStatus()));
+        budget.setNotes(editBudgetRequest.getNotes());
         budget.setUpdatedAt(LocalDateTime.now());
         try {
             budgetRepository.save(budget);
@@ -101,5 +109,9 @@ public class BudgetService {
         }catch(Exception Error){
             throw new ApiRequestException("Erro ao tentar editar o orçamento!");
         }
+    }
+
+    public Client findClientByBudgetId(Long budgetId) {
+        return budgetRepository.findById(budgetId).get().getClient();
     }
 }

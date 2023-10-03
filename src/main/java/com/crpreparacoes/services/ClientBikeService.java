@@ -1,7 +1,9 @@
 package com.crpreparacoes.services;
 
+import com.crpreparacoes.dto.BikeDTO;
 import com.crpreparacoes.dto.ClientBikeDTO;
 import com.crpreparacoes.exception.ApiRequestException;
+import com.crpreparacoes.models.Bike;
 import com.crpreparacoes.models.ClientBike;
 import com.crpreparacoes.repositories.BikeRepository;
 import com.crpreparacoes.repositories.ClientBikeRepository;
@@ -46,5 +48,15 @@ public class ClientBikeService {
         }catch(Exception Error){
             throw new ApiRequestException("Erro ao tentar adicionar uma moto do cliente!");
         }
+    }
+
+    public BikeDTO listBikeByPlate(String plate) {
+        ClientBike clientBike = clientBikeRepository.findByPlate(plate);
+        BikeDTO bikeDTO = new BikeDTO();
+        bikeDTO.setBikeBrandName(clientBike.getBike().getBikeBrand().getName());
+        bikeDTO.setBikeName(clientBike.getBike().getName());
+        bikeDTO.setEngineCapacity(clientBike.getBike().getEngineCapacity());
+        bikeDTO.setYear(clientBike.getBike().getYear());
+        return bikeDTO;
     }
 }

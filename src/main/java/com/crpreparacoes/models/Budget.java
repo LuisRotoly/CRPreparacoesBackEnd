@@ -38,9 +38,18 @@ public class Budget {
     @Column(name="year")
     private String year;
 
+    @Column(name="payment")
+    private String payment;
+
+    @Column(name="kilometers")
+    private Integer kilometers;
+
     @OneToOne
     @JoinColumn(name="status_id", referencedColumnName = "id_status")
     private Status status;
+
+    @Column(name="notes")
+    private String notes;
 
     @Column(name="created_at")
     private LocalDateTime createdAt;

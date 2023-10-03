@@ -19,8 +19,11 @@ public class BudgetDTO {
     private String bikeBrand;
     private Integer engineCapacity;
     private String year;
+    private String payment;
+    private Integer kilometers;
     private List<LaborOrBikePartBudget> laborOrBikePartBudgetList;
     private String status;
+    private String notes;
     private LocalDateTime createdAt;
     private double totalValue;
 }

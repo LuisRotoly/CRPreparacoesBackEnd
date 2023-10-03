@@ -1,5 +1,6 @@
 package com.crpreparacoes.repositories;
 
+import com.crpreparacoes.models.Bike;
 import com.crpreparacoes.models.ClientBike;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
