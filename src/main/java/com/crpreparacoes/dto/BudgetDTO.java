@@ -1,4 +1,4 @@
-package com.crpreparacoes.DTO;
+package com.crpreparacoes.dto;
 
 import com.crpreparacoes.models.Client;
 import com.crpreparacoes.models.LaborOrBikePartBudget;

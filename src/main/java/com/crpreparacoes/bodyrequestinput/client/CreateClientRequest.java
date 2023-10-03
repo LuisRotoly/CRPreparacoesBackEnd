@@ -1,6 +1,6 @@
 package com.crpreparacoes.bodyrequestinput.client;
 
-import com.crpreparacoes.DTO.ClientBikeDTO;
+import com.crpreparacoes.dto.ClientBikeDTO;
 import lombok.*;
 
 import java.util.List;

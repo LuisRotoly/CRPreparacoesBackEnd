@@ -1,4 +1,4 @@
-package com.crpreparacoes.DTO;
+package com.crpreparacoes.dto;
 
 import com.crpreparacoes.models.Bike;
 import lombok.AllArgsConstructor;

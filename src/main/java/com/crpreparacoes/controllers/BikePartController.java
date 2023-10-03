@@ -1,6 +1,6 @@
 package com.crpreparacoes.controllers;
 
-import com.crpreparacoes.DTO.BikePartDTO;
+import com.crpreparacoes.dto.BikePartDTO;
 import com.crpreparacoes.bodyrequestinput.bikePart.CreateBikePartRequest;
 import com.crpreparacoes.bodyrequestinput.bikePart.EditBikePartRequest;
 import com.crpreparacoes.models.BikePart;

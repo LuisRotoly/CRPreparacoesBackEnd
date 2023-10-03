@@ -1,12 +1,10 @@
 package com.crpreparacoes.services;
 
-import com.crpreparacoes.DTO.BudgetDTO;
+import com.crpreparacoes.dto.BudgetDTO;
 import com.crpreparacoes.bodyrequestinput.budget.CreateBudgetRequest;
 import com.crpreparacoes.bodyrequestinput.budget.EditBudgetRequest;
 import com.crpreparacoes.exception.ApiRequestException;
-import com.crpreparacoes.models.Budget;
-import com.crpreparacoes.models.LaborOrBikePartBudget;
-import com.crpreparacoes.models.Status;
+import com.crpreparacoes.models.*;
 import com.crpreparacoes.repositories.BudgetRepository;
 import com.crpreparacoes.repositories.ClientRepository;
 import com.crpreparacoes.repositories.LaborOrBikePartBudgetRepository;
@@ -95,6 +93,11 @@ public class BudgetService {
         budget.setUpdatedAt(LocalDateTime.now());
         try {
             budgetRepository.save(budget);
+            laborOrBikePartBudgetRepository.deleteAllByBudgetId(budget.getId());
+            for (LaborOrBikePartBudget laborOrBikePartBudget: editBudgetRequest.getLaborOrBikePartBudgetList()) {
+                laborOrBikePartBudget.setBudget(budget);
+                laborOrBikePartBudgetRepository.save(laborOrBikePartBudget);
+            }
         }catch(Exception Error){
             throw new ApiRequestException("Erro ao tentar editar o orçamento!");
         }

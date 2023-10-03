@@ -1,6 +1,6 @@
 package com.crpreparacoes.services;
 
-import com.crpreparacoes.DTO.BikePartDTO;
+import com.crpreparacoes.dto.BikePartDTO;
 import com.crpreparacoes.bodyrequestinput.bikePart.CreateBikePartRequest;
 import com.crpreparacoes.bodyrequestinput.bikePart.EditBikePartRequest;
 import com.crpreparacoes.exception.ApiRequestException;
@@ -16,7 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -59,7 +58,6 @@ public class BikePartService {
     }
 
     public void editBikePartById(EditBikePartRequest editBikePartRequest) {
-        System.out.println(editBikePartRequest);
         BikePart bikePart = new BikePart();
         bikePart.setId(editBikePartRequest.getId());
         bikePart.setName(editBikePartRequest.getName());

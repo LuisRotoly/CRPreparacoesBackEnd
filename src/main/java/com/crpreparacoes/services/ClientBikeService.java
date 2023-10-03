@@ -1,6 +1,6 @@
 package com.crpreparacoes.services;
 
-import com.crpreparacoes.DTO.ClientBikeDTO;
+import com.crpreparacoes.dto.ClientBikeDTO;
 import com.crpreparacoes.exception.ApiRequestException;
 import com.crpreparacoes.models.ClientBike;
 import com.crpreparacoes.repositories.BikeRepository;

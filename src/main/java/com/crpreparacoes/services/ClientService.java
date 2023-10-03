@@ -1,6 +1,6 @@
 package com.crpreparacoes.services;
 
-import com.crpreparacoes.DTO.ClientBikeDTO;
+import com.crpreparacoes.dto.ClientBikeDTO;
 import com.crpreparacoes.bodyrequestinput.client.CreateClientRequest;
 import com.crpreparacoes.bodyrequestinput.client.EditClientRequest;
 import com.crpreparacoes.exception.ApiRequestException;

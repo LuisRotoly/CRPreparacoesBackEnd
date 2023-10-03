@@ -1,6 +1,6 @@
 package com.crpreparacoes.controllers;
 
-import com.crpreparacoes.DTO.BudgetDTO;
+import com.crpreparacoes.dto.BudgetDTO;
 import com.crpreparacoes.bodyrequestinput.budget.CreateBudgetRequest;
 import com.crpreparacoes.bodyrequestinput.budget.EditBudgetRequest;
 import com.crpreparacoes.models.Budget;

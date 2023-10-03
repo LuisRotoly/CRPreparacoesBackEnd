@@ -1,6 +1,6 @@
 package com.crpreparacoes.controllers;
 
-import com.crpreparacoes.DTO.ClientBikeDTO;
+import com.crpreparacoes.dto.ClientBikeDTO;
 import com.crpreparacoes.services.ClientBikeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
