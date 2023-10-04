@@ -38,11 +38,12 @@ public class Budget {
     @Column(name="year")
     private String year;
 
-    @Column(name="payment")
-    private String payment;
+    @OneToOne
+    @JoinColumn(name="payment_format_id", referencedColumnName = "id_payment_format")
+    private PaymentFormat paymentFormat;
 
-    @Column(name="kilometers")
-    private Integer kilometers;
+    @Column(name="kilometers_driven")
+    private Integer kilometersDriven;
 
     @OneToOne
     @JoinColumn(name="status_id", referencedColumnName = "id_status")

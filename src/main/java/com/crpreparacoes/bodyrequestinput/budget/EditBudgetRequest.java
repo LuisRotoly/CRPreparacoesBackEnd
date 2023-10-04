@@ -12,7 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 public class EditBudgetRequest {
     private Long id;
-    private String payment;
+    private String paymentFormat;
     private List<LaborOrBikePartBudget> laborOrBikePartBudgetList;
     private String status;
     private String notes;
