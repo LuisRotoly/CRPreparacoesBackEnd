@@ -2,6 +2,8 @@ package com.crpreparacoes.dto;
 
 import com.crpreparacoes.models.Client;
 import com.crpreparacoes.models.LaborOrBikePartBudget;
+import com.crpreparacoes.models.PaymentFormat;
+import com.crpreparacoes.models.Status;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,10 +21,10 @@ public class BudgetDTO {
     private String bikeBrand;
     private Integer engineCapacity;
     private String year;
-    private String paymentFormat;
+    private PaymentFormat paymentFormat;
     private Integer kilometersDriven;
     private List<LaborOrBikePartBudget> laborOrBikePartBudgetList;
-    private String status;
+    private Status status;
     private String notes;
     private LocalDateTime createdAt;
     private double totalValue;

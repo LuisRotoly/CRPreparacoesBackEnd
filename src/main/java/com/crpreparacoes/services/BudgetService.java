@@ -47,11 +47,11 @@ public class BudgetService {
         budgetDTO.setBikeBrand(budget.getBikeBrand());
         budgetDTO.setEngineCapacity(budget.getEngineCapacity());
         budgetDTO.setYear(budget.getYear());
-        budgetDTO.setPaymentFormat(budget.getPaymentFormat().getType());
+        budgetDTO.setPaymentFormat(budget.getPaymentFormat());
         budgetDTO.setKilometersDriven(budget.getKilometersDriven());
         budgetDTO.setPlate(budget.getPlate());
         budgetDTO.setLaborOrBikePartBudgetList(laborOrBikePartBudgetList);
-        budgetDTO.setStatus(budget.getStatus().getDescription());
+        budgetDTO.setStatus(budget.getStatus());
         budgetDTO.setNotes(budget.getNotes());
         budgetDTO.setCreatedAt(budget.getCreatedAt());
         budgetDTO.setTotalValue(sumLaborOrBikePartBudgetValue(laborOrBikePartBudgetList));
@@ -76,10 +76,10 @@ public class BudgetService {
         budget.setBikeBrand(createBudgetRequest.getBikeBrand());
         budget.setEngineCapacity(createBudgetRequest.getEngineCapacity());
         budget.setYear(createBudgetRequest.getYear());
-        budget.setPaymentFormat(paymentFormatRepository.findByType(createBudgetRequest.getPaymentFormat()));
+        budget.setPaymentFormat(createBudgetRequest.getPaymentFormat());
         budget.setKilometersDriven(createBudgetRequest.getKilometersDriven());
         budget.setPlate(createBudgetRequest.getPlate());
-        budget.setStatus(statusRepository.findByDescription(createBudgetRequest.getStatus()));
+        budget.setStatus(createBudgetRequest.getStatus());
         budget.setNotes(createBudgetRequest.getNotes());
         budget.setCreatedAt(LocalDateTime.now());
         try {
@@ -95,8 +95,8 @@ public class BudgetService {
 
     public void editBudgetById(EditBudgetRequest editBudgetRequest) {
         Budget budget = budgetRepository.findById(editBudgetRequest.getId()).get();
-        budget.setPaymentFormat(paymentFormatRepository.findByType(editBudgetRequest.getPaymentFormat()));
-        budget.setStatus(statusRepository.findByDescription(editBudgetRequest.getStatus()));
+        budget.setPaymentFormat(editBudgetRequest.getPaymentFormat());
+        budget.setStatus(editBudgetRequest.getStatus());
         budget.setNotes(editBudgetRequest.getNotes());
         budget.setUpdatedAt(LocalDateTime.now());
         try {

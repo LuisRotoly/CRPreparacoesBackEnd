@@ -12,7 +12,4 @@ public interface PaymentFormatRepository extends CrudRepository<PaymentFormat, L
 
     @Query("SELECT p FROM PaymentFormat p")
     List<PaymentFormat> listAllPaymentFormat();
-
-    @Query("SELECT p FROM PaymentFormat p WHERE p.type = :type")
-    PaymentFormat findByType(String type);
 }

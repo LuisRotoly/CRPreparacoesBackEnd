@@ -12,7 +12,4 @@ public interface StatusRepository extends CrudRepository<Status,Long> {
 
     @Query("SELECT s FROM Status s")
     List<Status> listAllStatus();
-
-    @Query("SELECT s FROM Status s WHERE s.description = :description")
-    Status findByDescription(String description);
 }

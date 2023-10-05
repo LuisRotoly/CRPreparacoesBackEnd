@@ -1,6 +1,8 @@
 package com.crpreparacoes.bodyrequestinput.budget;
 
 import com.crpreparacoes.models.LaborOrBikePartBudget;
+import com.crpreparacoes.models.PaymentFormat;
+import com.crpreparacoes.models.Status;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,9 +19,9 @@ public class CreateBudgetRequest {
     private String bikeBrand;
     private Integer engineCapacity;
     private String year;
-    private String paymentFormat;
+    private PaymentFormat paymentFormat;
     private Integer kilometersDriven;
     private List<LaborOrBikePartBudget> laborOrBikePartBudgetList;
-    private String status;
+    private Status status;
     private String notes;
 }
