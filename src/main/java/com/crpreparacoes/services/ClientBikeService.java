@@ -1,7 +1,9 @@
 package com.crpreparacoes.services;
 
+import com.crpreparacoes.dto.BikeDTO;
 import com.crpreparacoes.dto.ClientBikeDTO;
 import com.crpreparacoes.exception.ApiRequestException;
+import com.crpreparacoes.models.Bike;
 import com.crpreparacoes.models.ClientBike;
 import com.crpreparacoes.repositories.BikeRepository;
 import com.crpreparacoes.repositories.ClientBikeRepository;
@@ -35,9 +37,9 @@ public class ClientBikeService {
         return clientBikeDTOList;
     }
 
-    public void addNewClientBike(Long clienteId, Long bikeId, String plate) {
+    public void addNewClientBike(Long clientId, Long bikeId, String plate) {
         ClientBike clientBike = new ClientBike();
-        clientBike.setClient(clientRepository.findById(clienteId).get());
+        clientBike.setClient(clientRepository.findById(clientId).get());
         clientBike.setBike(bikeRepository.findById(bikeId).get());
         clientBike.setPlate(plate);
         clientBike.setCreatedAt(LocalDateTime.now());
@@ -46,5 +48,15 @@ public class ClientBikeService {
         }catch(Exception Error){
             throw new ApiRequestException("Erro ao tentar adicionar uma moto do cliente!");
         }
+    }
+
+    public BikeDTO listBikeByPlate(String plate) {
+        ClientBike clientBike = clientBikeRepository.findByPlate(plate);
+        BikeDTO bikeDTO = new BikeDTO();
+        bikeDTO.setBrandName(clientBike.getBike().getBikeBrand().getName());
+        bikeDTO.setName(clientBike.getBike().getName());
+        bikeDTO.setEngineCapacity(clientBike.getBike().getEngineCapacity());
+        bikeDTO.setYear(clientBike.getBike().getYear());
+        return bikeDTO;
     }
 }

@@ -5,10 +5,7 @@ import com.crpreparacoes.bodyrequestinput.budget.CreateBudgetRequest;
 import com.crpreparacoes.bodyrequestinput.budget.EditBudgetRequest;
 import com.crpreparacoes.exception.ApiRequestException;
 import com.crpreparacoes.models.*;
-import com.crpreparacoes.repositories.BudgetRepository;
-import com.crpreparacoes.repositories.ClientRepository;
-import com.crpreparacoes.repositories.LaborOrBikePartBudgetRepository;
-import com.crpreparacoes.repositories.StatusRepository;
+import com.crpreparacoes.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +27,9 @@ public class BudgetService {
     @Autowired
     private StatusRepository statusRepository;
 
+    @Autowired
+    private PaymentFormatRepository paymentFormatRepository;
+
     public List<Budget> listAllBudgets() {
         return budgetRepository.listAllBudgets();
     }
@@ -47,9 +47,12 @@ public class BudgetService {
         budgetDTO.setBikeBrand(budget.getBikeBrand());
         budgetDTO.setEngineCapacity(budget.getEngineCapacity());
         budgetDTO.setYear(budget.getYear());
+        budgetDTO.setPaymentFormat(budget.getPaymentFormat());
+        budgetDTO.setKilometersDriven(budget.getKilometersDriven());
         budgetDTO.setPlate(budget.getPlate());
         budgetDTO.setLaborOrBikePartBudgetList(laborOrBikePartBudgetList);
-        budgetDTO.setStatus(budget.getStatus().getDescription());
+        budgetDTO.setStatus(budget.getStatus());
+        budgetDTO.setNotes(budget.getNotes());
         budgetDTO.setCreatedAt(budget.getCreatedAt());
         budgetDTO.setTotalValue(sumLaborOrBikePartBudgetValue(laborOrBikePartBudgetList));
         return budgetDTO;
@@ -73,8 +76,11 @@ public class BudgetService {
         budget.setBikeBrand(createBudgetRequest.getBikeBrand());
         budget.setEngineCapacity(createBudgetRequest.getEngineCapacity());
         budget.setYear(createBudgetRequest.getYear());
+        budget.setPaymentFormat(createBudgetRequest.getPaymentFormat());
+        budget.setKilometersDriven(createBudgetRequest.getKilometersDriven());
         budget.setPlate(createBudgetRequest.getPlate());
-        budget.setStatus(statusRepository.findByDescription(createBudgetRequest.getStatus()));
+        budget.setStatus(createBudgetRequest.getStatus());
+        budget.setNotes(createBudgetRequest.getNotes());
         budget.setCreatedAt(LocalDateTime.now());
         try {
             budgetRepository.save(budget);
@@ -89,7 +95,9 @@ public class BudgetService {
 
     public void editBudgetById(EditBudgetRequest editBudgetRequest) {
         Budget budget = budgetRepository.findById(editBudgetRequest.getId()).get();
-        budget.setStatus(statusRepository.findByDescription(editBudgetRequest.getStatus()));
+        budget.setPaymentFormat(editBudgetRequest.getPaymentFormat());
+        budget.setStatus(editBudgetRequest.getStatus());
+        budget.setNotes(editBudgetRequest.getNotes());
         budget.setUpdatedAt(LocalDateTime.now());
         try {
             budgetRepository.save(budget);
@@ -101,5 +109,9 @@ public class BudgetService {
         }catch(Exception Error){
             throw new ApiRequestException("Erro ao tentar editar o orçamento!");
         }
+    }
+
+    public Client findClientByBudgetId(Long budgetId) {
+        return budgetRepository.findById(budgetId).get().getClient();
     }
 }

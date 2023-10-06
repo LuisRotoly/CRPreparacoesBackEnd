@@ -4,6 +4,7 @@ import com.crpreparacoes.dto.BudgetDTO;
 import com.crpreparacoes.bodyrequestinput.budget.CreateBudgetRequest;
 import com.crpreparacoes.bodyrequestinput.budget.EditBudgetRequest;
 import com.crpreparacoes.models.Budget;
+import com.crpreparacoes.models.Client;
 import com.crpreparacoes.services.BudgetService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -53,5 +54,13 @@ public class BudgetController {
     @RequestMapping(value="/editBudget", method = RequestMethod.POST)
     public void editBudget(@RequestBody EditBudgetRequest editBudgetRequest){
         budgetService.editBudgetById(editBudgetRequest);
+    }
+
+    /**Método para buscar os dados do cliente usando id do orçamento
+     * @return Client - cliente
+     */
+    @RequestMapping(value="/findClientByBudgetId", method = RequestMethod.GET)
+    public @ResponseBody Client findClientByBudgetId(@RequestParam Long budgetId){
+        return budgetService.findClientByBudgetId(budgetId);
     }
 }
