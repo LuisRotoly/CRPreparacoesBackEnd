@@ -24,8 +24,8 @@ public class BudgetDTO {
     private PaymentFormat paymentFormat;
     private Integer kilometersDriven;
     private List<LaborOrBikePartBudget> laborOrBikePartBudgetList;
+    private Integer discountPercentage;
     private Status status;
     private String notes;
     private LocalDateTime createdAt;
-    private double totalValue;
 }

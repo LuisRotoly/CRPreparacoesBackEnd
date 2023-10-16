@@ -1,5 +1,6 @@
 package com.crpreparacoes.controllers;
 
+import com.crpreparacoes.bodyrequestinput.budget.EditBudgetNotesRequest;
 import com.crpreparacoes.dto.BudgetDTO;
 import com.crpreparacoes.bodyrequestinput.budget.CreateBudgetRequest;
 import com.crpreparacoes.bodyrequestinput.budget.EditBudgetRequest;
@@ -62,5 +63,19 @@ public class BudgetController {
     @RequestMapping(value="/findClientByBudgetId", method = RequestMethod.GET)
     public @ResponseBody Client findClientByBudgetId(@RequestParam Long budgetId){
         return budgetService.findClientByBudgetId(budgetId);
+    }
+
+    /**Método para remover um orçamento
+     */
+    @RequestMapping(value="/removeBudgetById", method = RequestMethod.PUT)
+    public void removeBudgetById(@RequestParam Long budgetId){
+        budgetService.removeBudgetById(budgetId);
+    }
+
+    /**Método para editar as observações de um orçamento
+     */
+    @RequestMapping(value="/editBudgetNotesById", method = RequestMethod.PUT)
+    public void editBudgetNotesById(@RequestBody EditBudgetNotesRequest editBudgetNotesRequest){
+        budgetService.editBudgetNotesById(editBudgetNotesRequest);
     }
 }

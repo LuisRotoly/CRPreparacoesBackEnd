@@ -1,5 +1,6 @@
 package com.crpreparacoes.services;
 
+import com.crpreparacoes.bodyrequestinput.budget.EditBudgetNotesRequest;
 import com.crpreparacoes.dto.BudgetDTO;
 import com.crpreparacoes.bodyrequestinput.budget.CreateBudgetRequest;
 import com.crpreparacoes.bodyrequestinput.budget.EditBudgetRequest;
@@ -51,19 +52,11 @@ public class BudgetService {
         budgetDTO.setKilometersDriven(budget.getKilometersDriven());
         budgetDTO.setPlate(budget.getPlate());
         budgetDTO.setLaborOrBikePartBudgetList(laborOrBikePartBudgetList);
+        budgetDTO.setDiscountPercentage(budget.getDiscountPercentage());
         budgetDTO.setStatus(budget.getStatus());
         budgetDTO.setNotes(budget.getNotes());
         budgetDTO.setCreatedAt(budget.getCreatedAt());
-        budgetDTO.setTotalValue(sumLaborOrBikePartBudgetValue(laborOrBikePartBudgetList));
         return budgetDTO;
-    }
-
-    private double sumLaborOrBikePartBudgetValue(List<LaborOrBikePartBudget> laborOrBikePartBudgetList){
-        double sum = 0;
-        for (LaborOrBikePartBudget laborOrBikePartBudget : laborOrBikePartBudgetList) {
-            sum = sum + (laborOrBikePartBudget.getQuantity()*laborOrBikePartBudget.getValue());
-        }
-        return sum;
     }
 
     public void addNewBudget(CreateBudgetRequest createBudgetRequest) {
@@ -79,6 +72,7 @@ public class BudgetService {
         budget.setPaymentFormat(createBudgetRequest.getPaymentFormat());
         budget.setKilometersDriven(createBudgetRequest.getKilometersDriven());
         budget.setPlate(createBudgetRequest.getPlate());
+        budget.setDiscountPercentage(createBudgetRequest.getDiscountPercentage());
         budget.setStatus(createBudgetRequest.getStatus());
         budget.setNotes(createBudgetRequest.getNotes());
         budget.setCreatedAt(LocalDateTime.now());
@@ -97,6 +91,7 @@ public class BudgetService {
         Budget budget = budgetRepository.findById(editBudgetRequest.getId()).get();
         budget.setPaymentFormat(editBudgetRequest.getPaymentFormat());
         budget.setStatus(editBudgetRequest.getStatus());
+        budget.setDiscountPercentage(editBudgetRequest.getDiscountPercentage());
         budget.setNotes(editBudgetRequest.getNotes());
         budget.setUpdatedAt(LocalDateTime.now());
         try {
@@ -113,5 +108,28 @@ public class BudgetService {
 
     public Client findClientByBudgetId(Long budgetId) {
         return budgetRepository.findById(budgetId).get().getClient();
+    }
+
+    public void removeBudgetById(Long budgetId) {
+        Budget budget = budgetRepository.findById(budgetId).get();
+        if(!budget.getStatus().equals(new Status(Status.StatusEnum.FINISHED))){
+            budget.setStatus(new Status(Status.StatusEnum.CANCELED));
+        }
+        budget.setRemoved(true);
+        try {
+            budgetRepository.save(budget);
+        }catch(Exception Error){
+            throw new ApiRequestException("Erro ao tentar remover o orçamento!");
+        }
+    }
+
+    public void editBudgetNotesById(EditBudgetNotesRequest editBudgetNotesRequest) {
+        Budget budget = budgetRepository.findById(editBudgetNotesRequest.getId()).get();
+        budget.setNotes(editBudgetNotesRequest.getNotes());
+        try {
+            budgetRepository.save(budget);
+        }catch(Exception Error){
+            throw new ApiRequestException("Erro ao tentar alterar as observações do orçamento!");
+        }
     }
 }
