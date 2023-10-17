@@ -16,6 +16,7 @@ public class EditBudgetRequest {
     private Long id;
     private PaymentFormat paymentFormat;
     private List<LaborOrBikePartBudget> laborOrBikePartBudgetList;
+    private Integer discountPercentage;
     private Status status;
     private String notes;
 }

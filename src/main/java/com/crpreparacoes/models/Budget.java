@@ -45,6 +45,9 @@ public class Budget {
     @Column(name="kilometers_driven")
     private Integer kilometersDriven;
 
+    @Column(name="discount_percentage")
+    private Integer discountPercentage;
+
     @OneToOne
     @JoinColumn(name="status_id", referencedColumnName = "id_status")
     private Status status;
@@ -57,4 +60,7 @@ public class Budget {
 
     @Column(name="updated_at")
     private LocalDateTime updatedAt;
+
+    @Column(name="is_removed")
+    private boolean isRemoved;
 }

@@ -22,6 +22,7 @@ public class CreateBudgetRequest {
     private PaymentFormat paymentFormat;
     private Integer kilometersDriven;
     private List<LaborOrBikePartBudget> laborOrBikePartBudgetList;
+    private Integer discountPercentage;
     private Status status;
     private String notes;
 }
