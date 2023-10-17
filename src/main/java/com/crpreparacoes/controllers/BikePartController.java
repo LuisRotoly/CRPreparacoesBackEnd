@@ -1,5 +1,6 @@
 package com.crpreparacoes.controllers;
 
+import com.crpreparacoes.bodyrequestinput.bikePart.EditBikePartStockRequest;
 import com.crpreparacoes.dto.BikePartDTO;
 import com.crpreparacoes.bodyrequestinput.bikePart.CreateBikePartRequest;
 import com.crpreparacoes.bodyrequestinput.bikePart.EditBikePartRequest;
@@ -61,5 +62,12 @@ public class BikePartController {
     @RequestMapping(value="/editBikePart", method = RequestMethod.POST)
     public void editBikePart(@RequestBody EditBikePartRequest editBikePartRequest){
         bikePartService.editBikePartById(editBikePartRequest);
+    }
+
+    /**Método para editar o estoque de uma peça
+     */
+    @RequestMapping(value="/editBikePartStock", method = RequestMethod.POST)
+    public void editBikePartStock(@RequestBody EditBikePartStockRequest editBikePartStockRequest){
+        bikePartService.editBikePartStockById(editBikePartStockRequest);
     }
 }

@@ -1,5 +1,6 @@
 package com.crpreparacoes.services;
 
+import com.crpreparacoes.bodyrequestinput.bikePart.EditBikePartStockRequest;
 import com.crpreparacoes.dto.BikePartDTO;
 import com.crpreparacoes.bodyrequestinput.bikePart.CreateBikePartRequest;
 import com.crpreparacoes.bodyrequestinput.bikePart.EditBikePartRequest;
@@ -58,12 +59,10 @@ public class BikePartService {
     }
 
     public void editBikePartById(EditBikePartRequest editBikePartRequest) {
-        BikePart bikePart = new BikePart();
-        bikePart.setId(editBikePartRequest.getId());
+        BikePart bikePart = bikePartRepository.findById(editBikePartRequest.getId()).get();
         bikePart.setName(editBikePartRequest.getName());
         bikePart.setValue(editBikePartRequest.getValue());
         bikePart.setProfitPercentage(editBikePartRequest.getProfitPercentage());
-        bikePart.setStockQuantity(editBikePartRequest.getStockQuantity());
         bikePart.setUpdatedAt(LocalDateTime.now());
         try {
             bikePartRepository.save(bikePart);
@@ -98,5 +97,16 @@ public class BikePartService {
     public List<BikePart> listBikePartByPlate(String plate) {
         ClientBike clientBike = clientBikeRepository.findByPlate(plate);
         return bikePartRelBikeRepository.listBikePartByBikeId(clientBike.getBike().getId());
+    }
+
+    public void editBikePartStockById(EditBikePartStockRequest editBikePartStockRequest) {
+        BikePart bikePart = bikePartRepository.findById(editBikePartStockRequest.getId()).get();
+        bikePart.setStockQuantity(editBikePartStockRequest.getStockQuantity());
+        bikePart.setUpdatedAt(LocalDateTime.now());
+        try {
+            bikePartRepository.save(bikePart);
+        }catch(Exception Error){
+            throw new ApiRequestException("Erro ao tentar editar o estoque da peça!");
+        }
     }
 }
