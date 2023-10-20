@@ -51,8 +51,10 @@ public class BikePartService {
     public void editBikePartById(EditBikePartRequest editBikePartRequest) {
         BikePart bikePart = bikePartRepository.findById(editBikePartRequest.getId()).get();
         BikePart bikePartCompare = bikePartRepository.findByName(editBikePartRequest.getName());
-        if(bikePart.getId() != bikePartCompare.getId()){
-            throw new ApiRequestException("Erro! Nome da peça já existe!");
+        if(bikePartCompare != null) {
+            if (bikePart.getId() != bikePartCompare.getId()) {
+                throw new ApiRequestException("Erro! Nome da peça já existe!");
+            }
         }
         bikePart.setName(editBikePartRequest.getName());
         bikePart.setValue(editBikePartRequest.getValue());
