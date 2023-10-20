@@ -44,6 +44,7 @@ public class ClientService {
         client.setCpfcnpj(createClientRequest.getCpfcnpj());
         client.setCep(createClientRequest.getCep());
         client.setAddressNumber(createClientRequest.getAddressNumber());
+        client.setBirthDate(createClientRequest.getBirthDate());
         client.setPhone(createClientRequest.getPhone());
         client.setOptionalPhone(createClientRequest.getOptionalPhone());
         client.setNotes(createClientRequest.getNotes());
@@ -55,7 +56,7 @@ public class ClientService {
             throw new ApiRequestException("Erro ao tentar adicionar o cliente!");
         }
         for(ClientBikeDTO clientBike: createClientRequest.getClientBikeList()) {
-            clientBikeService.addNewClientBike(client.getId(), clientBike.getBike().getId(),clientBike.getPlate());
+            clientBikeService.addNewClientBike(client.getId(), clientBike.getBike().getId(), clientBike.getPlate(), clientBike.getYear());
         }
     }
 
@@ -68,6 +69,7 @@ public class ClientService {
         client.setCreatedAt(client.getCreatedAt());
         client.setCep(editClientRequest.getCep());
         client.setAddressNumber(editClientRequest.getAddressNumber());
+        client.setBirthDate(editClientRequest.getBirthDate());
         client.setPhone(editClientRequest.getPhone());
         client.setOptionalPhone(editClientRequest.getOptionalPhone());
         client.setNotes(editClientRequest.getNotes());
@@ -94,7 +96,7 @@ public class ClientService {
             }
         }
         for(ClientBikeDTO clientBikeDTO : clientBikeDTOList){
-            clientBikeService.addNewClientBike(editClientRequest.getId(), clientBikeDTO.getBike().getId(),clientBikeDTO.getPlate());
+            clientBikeService.addNewClientBike(editClientRequest.getId(), clientBikeDTO.getBike().getId(), clientBikeDTO.getPlate(), clientBikeDTO.getYear());
         }
     }
 

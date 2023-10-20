@@ -28,6 +28,9 @@ public class Client {
     @Column(name="address_number")
     private String addressNumber;
 
+    @Column(name="birth_date")
+    private String birthDate;
+
     @Column(name="phone")
     private String phone;
 

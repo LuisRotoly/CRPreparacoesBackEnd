@@ -12,4 +12,10 @@ public interface BikePartRepository extends CrudRepository<BikePart, Long> {
 
     @Query(value = "SELECT b FROM BikePart b")
     List<BikePart> listAllBikeParts();
+
+    @Query(value = "SELECT b FROM BikePart b WHERE b.name LIKE %:word%")
+    List<BikePart> filterListBikes(String word);
+
+    @Query(value = "SELECT b FROM BikePart b WHERE b.name = :name")
+    BikePart findByName(String name);
 }

@@ -10,6 +10,4 @@ import lombok.NoArgsConstructor;
 public class BikeDTO {
     private String brandName;
     private String name;
-    private Integer engineCapacity;
-    private String year;
 }

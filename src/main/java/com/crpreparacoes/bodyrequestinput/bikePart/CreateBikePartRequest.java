@@ -13,5 +13,4 @@ public class CreateBikePartRequest {
     private Double value;
     private Double profitPercentage;
     private Integer stockQuantity;
-    private List<Bike> bikeList;
 }

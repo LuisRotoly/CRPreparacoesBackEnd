@@ -13,5 +13,4 @@ public class EditBikePartRequest {
     private String name;
     private Double value;
     private Double profitPercentage;
-    private List<Bike> bikeList;
 }
