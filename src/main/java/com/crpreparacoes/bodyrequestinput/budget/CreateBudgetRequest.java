@@ -17,7 +17,6 @@ public class CreateBudgetRequest {
     private String plate;
     private String bikeName;
     private String bikeBrand;
-    private Integer engineCapacity;
     private String year;
     private PaymentFormat paymentFormat;
     private Integer kilometersDriven;

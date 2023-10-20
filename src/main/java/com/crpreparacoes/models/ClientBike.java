@@ -27,6 +27,9 @@ public class ClientBike {
     @Column(name="plate")
     private String plate;
 
+    @Column(name="year")
+    private String year;
+
     @Column(name="created_at")
     private LocalDateTime createdAt;
 

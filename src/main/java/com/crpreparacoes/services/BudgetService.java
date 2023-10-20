@@ -29,6 +29,9 @@ public class BudgetService {
     private StatusRepository statusRepository;
 
     @Autowired
+    private BikePartRepository bikePartRepository;
+
+    @Autowired
     private PaymentFormatRepository paymentFormatRepository;
 
     public List<Budget> listAllBudgets() {
@@ -46,7 +49,6 @@ public class BudgetService {
         budgetDTO.setClient(budget.getClient());
         budgetDTO.setBikeName(budget.getBikeName());
         budgetDTO.setBikeBrand(budget.getBikeBrand());
-        budgetDTO.setEngineCapacity(budget.getEngineCapacity());
         budgetDTO.setYear(budget.getYear());
         budgetDTO.setPaymentFormat(budget.getPaymentFormat());
         budgetDTO.setKilometersDriven(budget.getKilometersDriven());
@@ -67,7 +69,6 @@ public class BudgetService {
         budget.setClient(clientRepository.findById(createBudgetRequest.getClientId()).get());
         budget.setBikeName(createBudgetRequest.getBikeName());
         budget.setBikeBrand(createBudgetRequest.getBikeBrand());
-        budget.setEngineCapacity(createBudgetRequest.getEngineCapacity());
         budget.setYear(createBudgetRequest.getYear());
         budget.setPaymentFormat(createBudgetRequest.getPaymentFormat());
         budget.setKilometersDriven(createBudgetRequest.getKilometersDriven());
@@ -78,9 +79,21 @@ public class BudgetService {
         budget.setCreatedAt(LocalDateTime.now());
         try {
             budgetRepository.save(budget);
-            for (LaborOrBikePartBudget laborOrBikePartBudget: createBudgetRequest.getLaborOrBikePartBudgetList()) {
-                laborOrBikePartBudget.setBudget(budget);
-                laborOrBikePartBudgetRepository.save(laborOrBikePartBudget);
+            if(createBudgetRequest.getStatus().equals(new Status(Status.StatusEnum.FINISHED))){
+                for (LaborOrBikePartBudget laborOrBikePartBudget: createBudgetRequest.getLaborOrBikePartBudgetList()) {
+                    BikePart bikePart = bikePartRepository.findByName(laborOrBikePartBudget.getName());
+                    if(bikePart != null) {
+                        bikePart.setStockQuantity(bikePart.getStockQuantity() - laborOrBikePartBudget.getQuantity());
+                        bikePartRepository.save(bikePart);
+                    }
+                    laborOrBikePartBudget.setBudget(budget);
+                    laborOrBikePartBudgetRepository.save(laborOrBikePartBudget);
+                }
+            }else{
+                for (LaborOrBikePartBudget laborOrBikePartBudget: createBudgetRequest.getLaborOrBikePartBudgetList()) {
+                    laborOrBikePartBudget.setBudget(budget);
+                    laborOrBikePartBudgetRepository.save(laborOrBikePartBudget);
+                }
             }
         }catch(Exception Error){
             throw new ApiRequestException("Erro ao tentar adicionar o orçamento!");
@@ -97,9 +110,21 @@ public class BudgetService {
         try {
             budgetRepository.save(budget);
             laborOrBikePartBudgetRepository.deleteAllByBudgetId(budget.getId());
-            for (LaborOrBikePartBudget laborOrBikePartBudget: editBudgetRequest.getLaborOrBikePartBudgetList()) {
-                laborOrBikePartBudget.setBudget(budget);
-                laborOrBikePartBudgetRepository.save(laborOrBikePartBudget);
+            if(editBudgetRequest.getStatus().equals(new Status(Status.StatusEnum.FINISHED))) {
+                for (LaborOrBikePartBudget laborOrBikePartBudget : editBudgetRequest.getLaborOrBikePartBudgetList()) {
+                    BikePart bikePart = bikePartRepository.findByName(laborOrBikePartBudget.getName());
+                    if(bikePart != null) {
+                        bikePart.setStockQuantity(bikePart.getStockQuantity() - laborOrBikePartBudget.getQuantity());
+                        bikePartRepository.save(bikePart);
+                    }
+                    laborOrBikePartBudget.setBudget(budget);
+                    laborOrBikePartBudgetRepository.save(laborOrBikePartBudget);
+                }
+            }else{
+                for (LaborOrBikePartBudget laborOrBikePartBudget : editBudgetRequest.getLaborOrBikePartBudgetList()) {
+                    laborOrBikePartBudget.setBudget(budget);
+                    laborOrBikePartBudgetRepository.save(laborOrBikePartBudget);
+                }
             }
         }catch(Exception Error){
             throw new ApiRequestException("Erro ao tentar editar o orçamento!");

@@ -14,6 +14,7 @@ public class CreateClientRequest {
     private String cpfcnpj;
     private String cep;
     private String addressNumber;
+    private String birthDate;
     private String phone;
     private String optionalPhone;
     private String notes;

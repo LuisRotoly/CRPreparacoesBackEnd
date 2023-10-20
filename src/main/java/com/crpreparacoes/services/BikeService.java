@@ -26,14 +26,12 @@ public class BikeService {
     }
 
     public void addNewBike(CreateBikeRequest createBikeRequest) {
-        if(bikeRepository.findBikeExists(createBikeRequest.getName(), createBikeRequest.getBrandId(), createBikeRequest.getYear(), createBikeRequest.getEngineCapacity()) != null){
+        if(bikeRepository.findBikeExists(createBikeRequest.getName(), createBikeRequest.getBrandId()) != null){
             throw new ApiRequestException("Erro! Moto já criada!");
         }
         Bike bike = new Bike();
         bike.setName(createBikeRequest.getName());
         bike.setBikeBrand(bikeBrandRepository.findById(createBikeRequest.getBrandId()).get());
-        bike.setEngineCapacity(createBikeRequest.getEngineCapacity());
-        bike.setYear(createBikeRequest.getYear());
         bike.setCreatedAt(LocalDateTime.now());
         try {
             bikeRepository.save(bike);
@@ -47,8 +45,6 @@ public class BikeService {
         bike.setId(editBikeRequest.getId());
         bike.setName(editBikeRequest.getName());
         bike.setBikeBrand(bikeBrandRepository.findById(editBikeRequest.getBrandId()).get());
-        bike.setEngineCapacity(editBikeRequest.getEngineCapacity());
-        bike.setYear(editBikeRequest.getYear());
         bike.setUpdatedAt(LocalDateTime.now());
         try {
             bikeRepository.save(bike);

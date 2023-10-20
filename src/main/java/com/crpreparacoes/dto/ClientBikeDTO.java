@@ -11,4 +11,5 @@ import lombok.NoArgsConstructor;
 public class ClientBikeDTO {
     private String plate;
     private Bike bike;
+    private String year;
 }

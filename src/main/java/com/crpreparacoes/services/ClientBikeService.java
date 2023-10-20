@@ -31,17 +31,18 @@ public class ClientBikeService {
         List<ClientBike> clientBikeList = clientBikeRepository.listAllClientBikeByClientId(clientId);
         List<ClientBikeDTO> clientBikeDTOList = new ArrayList<>();
         for (ClientBike clientBike: clientBikeList) {
-            ClientBikeDTO clientBikeDTO = new ClientBikeDTO(clientBike.getPlate(),clientBike.getBike());
+            ClientBikeDTO clientBikeDTO = new ClientBikeDTO(clientBike.getPlate(),clientBike.getBike(),clientBike.getYear());
             clientBikeDTOList.add(clientBikeDTO);
         }
         return clientBikeDTOList;
     }
 
-    public void addNewClientBike(Long clientId, Long bikeId, String plate) {
+    public void addNewClientBike(Long clientId, Long bikeId, String plate,String year) {
         ClientBike clientBike = new ClientBike();
         clientBike.setClient(clientRepository.findById(clientId).get());
         clientBike.setBike(bikeRepository.findById(bikeId).get());
         clientBike.setPlate(plate);
+        clientBike.setYear(year);
         clientBike.setCreatedAt(LocalDateTime.now());
         try {
             clientBikeRepository.save(clientBike);
@@ -55,8 +56,6 @@ public class ClientBikeService {
         BikeDTO bikeDTO = new BikeDTO();
         bikeDTO.setBrandName(clientBike.getBike().getBikeBrand().getName());
         bikeDTO.setName(clientBike.getBike().getName());
-        bikeDTO.setEngineCapacity(clientBike.getBike().getEngineCapacity());
-        bikeDTO.setYear(clientBike.getBike().getYear());
         return bikeDTO;
     }
 }

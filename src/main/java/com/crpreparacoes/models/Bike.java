@@ -23,12 +23,6 @@ public class Bike {
     @JoinColumn(name = "bike_brand_id", referencedColumnName = "id_bike_brand")
     private BikeBrand bikeBrand;
 
-    @Column(name="engine_capacity")
-    private Integer engineCapacity;
-
-    @Column(name="year")
-    private String year;
-
     @Column(name="created_at")
     private LocalDateTime createdAt;
 
