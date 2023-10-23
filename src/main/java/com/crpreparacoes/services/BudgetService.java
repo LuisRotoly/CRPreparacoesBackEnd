@@ -62,7 +62,7 @@ public class BudgetService {
     }
 
     public void addNewBudget(CreateBudgetRequest createBudgetRequest) {
-        if(budgetRepository.findBudgetNotFinishedByPlate(createBudgetRequest.getPlate(), Status.StatusEnum.FINISHED.id, Status.StatusEnum.CANCELED.id) != null){
+        if(budgetRepository.findBudgetNotFinishedByPlate(createBudgetRequest.getClientId(), createBudgetRequest.getPlate(), Status.StatusEnum.FINISHED.id, Status.StatusEnum.CANCELED.id) != null){
             throw new ApiRequestException("Erro! Orçamento em andamento!");
         }
         Budget budget = new Budget();

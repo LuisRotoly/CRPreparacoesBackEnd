@@ -1,0 +1,1 @@
+ALTER TABLE client_bike DROP INDEX plate;
