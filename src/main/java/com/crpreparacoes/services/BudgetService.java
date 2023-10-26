@@ -6,11 +6,13 @@ import com.crpreparacoes.bodyrequestinput.budget.CreateBudgetRequest;
 import com.crpreparacoes.bodyrequestinput.budget.EditBudgetRequest;
 import com.crpreparacoes.exception.ApiRequestException;
 import com.crpreparacoes.models.*;
+import com.crpreparacoes.models.BikeService;
 import com.crpreparacoes.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -29,13 +31,36 @@ public class BudgetService {
     private StatusRepository statusRepository;
 
     @Autowired
+    private BikeServiceService bikeServiceService;
+
+    @Autowired
     private BikePartRepository bikePartRepository;
 
     @Autowired
     private PaymentFormatRepository paymentFormatRepository;
 
-    public List<Budget> listAllBudgets() {
-        return budgetRepository.listAllBudgets();
+    public List<BudgetDTO> listAllBudgets() {
+        List<Budget> budgetList = budgetRepository.listAllBudgets();
+        List<BudgetDTO> budgetDTOList = new ArrayList<>();
+        for (Budget budget: budgetList) {
+            BudgetDTO budgetDTO = new BudgetDTO();
+            budgetDTO.setId(budget.getId());
+            budgetDTO.setClient(budget.getClient());
+            budgetDTO.setPlate(budget.getPlate());
+            budgetDTO.setBikeName(budget.getBikeName());
+            budgetDTO.setBikeName(budget.getBikeName());
+            budgetDTO.setStatus(budget.getStatus());
+            budgetDTO.setCreatedAt(budget.getCreatedAt());
+            List<LaborOrBikePartBudget> laborOrBikePartBudgetList = laborOrBikePartBudgetRepository.findAllLaborOrBikePartBudgetById(budget.getId());
+            for (LaborOrBikePartBudget laborOrBikePartBudget:laborOrBikePartBudgetList) {
+                budgetDTO.setTotalValue(budgetDTO.getTotalValue()+laborOrBikePartBudget.getValue()*laborOrBikePartBudget.getQuantity());
+            }
+            if(budget.getDiscountPercentage() != null){
+                budgetDTO.setTotalValue(budgetDTO.getTotalValue() - (budgetDTO.getTotalValue()*budget.getDiscountPercentage()/100));
+            }
+            budgetDTOList.add(budgetDTO);
+        }
+        return budgetDTOList;
     }
 
     public List<Budget> filterListBudgets(String word) {
@@ -58,6 +83,23 @@ public class BudgetService {
         budgetDTO.setStatus(budget.getStatus());
         budgetDTO.setNotes(budget.getNotes());
         budgetDTO.setCreatedAt(budget.getCreatedAt());
+        List<BikeService> bikeServiceList = bikeServiceService.listAllBikeServices();
+        for (LaborOrBikePartBudget laborOrBikePartBudget:laborOrBikePartBudgetList) {
+            boolean match = false;
+            for (BikeService bikeService:bikeServiceList) {
+                if(laborOrBikePartBudget.getName().equals(bikeService.getName())){
+                    budgetDTO.setTotalValueBikeService(budgetDTO.getTotalValueBikeService() + (laborOrBikePartBudget.getValue()* laborOrBikePartBudget.getQuantity()));
+                    match = true;
+                }
+            }
+            if(!match){
+                budgetDTO.setTotalValueBikePart(budgetDTO.getTotalValueBikePart() + (laborOrBikePartBudget.getValue()* laborOrBikePartBudget.getQuantity()));
+            }
+        budgetDTO.setTotalValue(budgetDTO.getTotalValue() + (laborOrBikePartBudget.getValue()* laborOrBikePartBudget.getQuantity()));
+        }
+        if(budgetDTO.getDiscountPercentage() != null){
+            budgetDTO.setTotalValue(budgetDTO.getTotalValue() - (budgetDTO.getTotalValue()*budgetDTO.getDiscountPercentage()/100));
+        }
         return budgetDTO;
     }
 

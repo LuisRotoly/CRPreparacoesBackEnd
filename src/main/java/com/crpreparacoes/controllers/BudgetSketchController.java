@@ -18,10 +18,10 @@ public class BudgetSketchController {
     private BudgetSketchService budgetSketchService;
 
     /**Método para buscar todos os orçamentos avulsos
-     * @return List<BudgetSketch> - Lista de orçamentos avulsos
+     * @return List<BudgetSketchDTO> - Lista de orçamentos avulsos
      */
     @RequestMapping(value="/listBudgetsSketch", method = RequestMethod.GET)
-    public @ResponseBody List<BudgetSketch> listBudgetsSketch(){
+    public @ResponseBody List<BudgetSketchDTO> listBudgetsSketch(){
         return budgetSketchService.listAllBudgetsSketch();
     }
 
@@ -60,5 +60,13 @@ public class BudgetSketchController {
     @RequestMapping(value="/removeBudgetSketchById", method = RequestMethod.PUT)
     public void removeBudgetSketchById(@RequestParam Long budgetSketchId){
         budgetSketchService.removeBudgetSketchById(budgetSketchId);
+    }
+
+    /**Método para buscar o custo de uma peça ou serviço
+     * @return double - custo da peça ou serviço
+     */
+    @RequestMapping(value="/findLaborOrBikePartByName", method = RequestMethod.GET)
+    public @ResponseBody double findLaborOrBikePartByName(@RequestParam String name){
+        return budgetSketchService.findLaborOrBikePartByName(name);
     }
 }

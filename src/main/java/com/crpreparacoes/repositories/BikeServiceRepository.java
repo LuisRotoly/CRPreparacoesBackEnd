@@ -15,4 +15,7 @@ public interface BikeServiceRepository extends CrudRepository<BikeService, Long>
 
     @Query(value = "SELECT b FROM BikeService b WHERE b.name LIKE %:word%")
     List<BikeService> filterListBikeServices(String word);
+
+    @Query(value = "SELECT b FROM BikeService b WHERE b.name = :name")
+    BikeService findByName(String name);
 }

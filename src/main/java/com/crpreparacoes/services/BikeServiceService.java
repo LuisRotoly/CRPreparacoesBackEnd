@@ -3,6 +3,7 @@ package com.crpreparacoes.services;
 import com.crpreparacoes.bodyrequestinput.bikeService.CreateBikeServiceRequest;
 import com.crpreparacoes.bodyrequestinput.bikeService.EditBikeServiceRequest;
 import com.crpreparacoes.exception.ApiRequestException;
+import com.crpreparacoes.models.BikePart;
 import com.crpreparacoes.models.BikeService;
 import com.crpreparacoes.repositories.BikeServiceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,9 @@ public class BikeServiceService {
     }
 
     public void addNewBikeService(CreateBikeServiceRequest createBikeServiceRequest) {
+        if(bikeServiceRepository.findByName(createBikeServiceRequest.getName())!=null){
+            throw new ApiRequestException("Erro! Nome do serviço já existe!");
+        }
         BikeService bikeService = new BikeService();
         bikeService.setName(createBikeServiceRequest.getName());
         bikeService.setValue(createBikeServiceRequest.getValue());
@@ -40,8 +44,13 @@ public class BikeServiceService {
     }
 
     public void editBikeServiceById(EditBikeServiceRequest editBikeServiceRequest) {
-        BikeService bikeService = new BikeService();
-        bikeService.setId(editBikeServiceRequest.getId());
+        BikeService bikeService = bikeServiceRepository.findById(editBikeServiceRequest.getId()).get();
+        BikeService bikeServiceCompare = bikeServiceRepository.findByName(editBikeServiceRequest.getName());
+        if(bikeServiceCompare != null) {
+            if (bikeService.getId() != bikeServiceCompare.getId()) {
+                throw new ApiRequestException("Erro! Nome do serviço já existe!");
+            }
+        }
         bikeService.setName(editBikeServiceRequest.getName());
         bikeService.setValue(editBikeServiceRequest.getValue());
         try {
