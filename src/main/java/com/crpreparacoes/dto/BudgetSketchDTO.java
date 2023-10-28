@@ -20,4 +20,7 @@ public class BudgetSketchDTO {
     private String notes;
     private LocalDateTime createdAt;
     private List<LaborOrBikePartBudgetSketch> laborOrBikePartBudgetSketchList;
+    private double totalValueBikeService;
+    private double totalValueBikePart;
+    private double totalValue;
 }

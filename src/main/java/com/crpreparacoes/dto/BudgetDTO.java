@@ -15,6 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class BudgetDTO {
+    private Long id;
     private Client client;
     private String plate;
     private String bikeName;
@@ -27,4 +28,7 @@ public class BudgetDTO {
     private Status status;
     private String notes;
     private LocalDateTime createdAt;
+    private double totalValueBikeService;
+    private double totalValueBikePart;
+    private double totalValue;
 }

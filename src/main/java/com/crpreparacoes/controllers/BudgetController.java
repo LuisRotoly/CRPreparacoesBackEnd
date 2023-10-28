@@ -20,10 +20,10 @@ public class BudgetController {
     private BudgetService budgetService;
 
     /**Método para buscar todos os orçamentos
-     * @return List<Budget> - Lista de orçamentos
+     * @return List<BudgetDTO> - Lista de orçamentos
      */
     @RequestMapping(value="/listBudgets", method = RequestMethod.GET)
-    public @ResponseBody List<Budget> listBudgets(){
+    public @ResponseBody List<BudgetDTO> listBudgets(){
         return budgetService.listAllBudgets();
     }
 
