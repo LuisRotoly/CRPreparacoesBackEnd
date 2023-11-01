@@ -33,4 +33,7 @@ public class BikePart {
 
     @Column(name="updated_at")
     private LocalDateTime updatedAt;
+
+    @Column(name="notes")
+    private String notes;
 }

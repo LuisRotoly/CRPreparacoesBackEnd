@@ -16,4 +16,5 @@ public class BikePartDTO {
     private Double profitPercentage;
     private Double finalValue;
     private Integer stockQuantity;
+    private String notes;
 }

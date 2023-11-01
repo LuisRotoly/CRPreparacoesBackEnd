@@ -7,3 +7,6 @@ CREATE TABLE finance_budget (
   FOREIGN KEY (payment_format_id) REFERENCES payment_format(id_payment_format),
   paid_at datetime
 );
+
+ALTER TABLE bike_part ADD notes varchar(255);
+UPDATE bike_part SET notes = "";
