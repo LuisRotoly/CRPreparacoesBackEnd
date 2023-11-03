@@ -105,6 +105,6 @@ public class ClientService {
     }
 
     public List<Client> filterListClients(String word) {
-        return clientRepository.filterListClients(word);
+        return clientBikeRepository.filterListClients(word);
     }
 }

@@ -10,3 +10,5 @@ CREATE TABLE finance_budget (
 
 ALTER TABLE bike_part ADD notes varchar(255);
 UPDATE bike_part SET notes = "";
+
+insert into status(id_status, code, description) values (6, "WAITING_PAYMENT", "Aguardando pagamento");

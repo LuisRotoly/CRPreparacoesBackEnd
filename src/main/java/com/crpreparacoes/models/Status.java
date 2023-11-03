@@ -17,7 +17,8 @@ public class Status{
         CANCELED(2L, "CANCELED", "Cancelado"),
         WAITING_PARTS(3L, "WAITING_PARTS", "Esperando peças"),
         IN_PRODUCTION(4L, "IN_PRODUCTION", "Em produção"),
-        FINISHED(5L, "FINISHED", "Finalizado");
+        FINISHED(5L, "FINISHED", "Finalizado"),
+        WAITING_PAYMENT(6L, "WAITING_PAYMENT", "Aguardando pagamento");
 
         public final Long id;
         public final String code;
