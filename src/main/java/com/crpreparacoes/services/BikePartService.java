@@ -40,6 +40,7 @@ public class BikePartService {
         bikePart.setValue(createBikePartRequest.getValue());
         bikePart.setProfitPercentage(createBikePartRequest.getProfitPercentage());
         bikePart.setStockQuantity(createBikePartRequest.getStockQuantity());
+        bikePart.setNotes(createBikePartRequest.getNotes());
         bikePart.setCreatedAt(LocalDateTime.now());
         try {
             bikePartRepository.save(bikePart);
@@ -59,6 +60,7 @@ public class BikePartService {
         bikePart.setName(editBikePartRequest.getName());
         bikePart.setValue(editBikePartRequest.getValue());
         bikePart.setProfitPercentage(editBikePartRequest.getProfitPercentage());
+        bikePart.setNotes(editBikePartRequest.getNotes());
         bikePart.setUpdatedAt(LocalDateTime.now());
         try {
             bikePartRepository.save(bikePart);
@@ -77,6 +79,7 @@ public class BikePartService {
         bikePartDTO.setName(bikePart.getName());
         bikePartDTO.setValue(bikePart.getValue());
         bikePartDTO.setProfitPercentage(bikePart.getProfitPercentage());
+        bikePartDTO.setNotes(bikePart.getNotes());
         bikePartDTO.setStockQuantity(bikePart.getStockQuantity());
         bikePartDTO.setFinalValue(bikePart.getValue() + (bikePart.getValue()*bikePart.getProfitPercentage())/100);
         return bikePartDTO;
