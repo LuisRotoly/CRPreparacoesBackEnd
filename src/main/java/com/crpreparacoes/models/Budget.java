@@ -54,6 +54,9 @@ public class Budget {
     @Column(name="notes")
     private String notes;
 
+    @Column(name="problems")
+    private String problems;
+
     @Column(name="created_at")
     private LocalDateTime createdAt;
 

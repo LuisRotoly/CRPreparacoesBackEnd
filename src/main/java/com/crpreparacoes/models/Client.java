@@ -25,8 +25,14 @@ public class Client {
     @Column(name="cep")
     private String cep;
 
+    @Column(name="street")
+    private String street;
+
     @Column(name="address_number")
     private String addressNumber;
+
+    @Column(name="district")
+    private String district;
 
     @Column(name="birth_date")
     private String birthDate;

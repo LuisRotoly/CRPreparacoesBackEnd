@@ -34,16 +34,13 @@ public class ClientService {
         if(clientRepository.findByCpfcnpj(createClientRequest.getCpfcnpj()) != null){
             throw new ApiRequestException("Erro! CPF ou CNPJ do cliente já existe!");
         }
-        for(ClientBikeDTO clientBike: createClientRequest.getClientBikeList()) {
-            if (clientBikeRepository.findByPlate(clientBike.getPlate()) != null) {
-                throw new ApiRequestException("Erro! Placa já cadastrada!");
-            }
-        }
         Client client = new Client();
         client.setName(createClientRequest.getName());
         client.setCpfcnpj(createClientRequest.getCpfcnpj());
         client.setCep(createClientRequest.getCep());
+        client.setStreet(createClientRequest.getStreet());
         client.setAddressNumber(createClientRequest.getAddressNumber());
+        client.setDistrict(createClientRequest.getDistrict());
         client.setBirthDate(createClientRequest.getBirthDate());
         client.setPhone(createClientRequest.getPhone());
         client.setOptionalPhone(createClientRequest.getOptionalPhone());
@@ -68,7 +65,9 @@ public class ClientService {
         }
         client.setCreatedAt(client.getCreatedAt());
         client.setCep(editClientRequest.getCep());
+        client.setStreet(editClientRequest.getStreet());
         client.setAddressNumber(editClientRequest.getAddressNumber());
+        client.setDistrict(editClientRequest.getDistrict());
         client.setBirthDate(editClientRequest.getBirthDate());
         client.setPhone(editClientRequest.getPhone());
         client.setOptionalPhone(editClientRequest.getOptionalPhone());

@@ -27,6 +27,7 @@ public class BudgetDTO {
     private Integer discountPercentage;
     private Status status;
     private String notes;
+    private String problems;
     private LocalDateTime createdAt;
     private double totalValueBikeService;
     private double totalValueBikePart;

@@ -50,6 +50,7 @@ public class BudgetService {
             budgetDTO.setBikeName(budget.getBikeName());
             budgetDTO.setBikeName(budget.getBikeName());
             budgetDTO.setStatus(budget.getStatus());
+            budgetDTO.setProblems(budget.getProblems());
             budgetDTO.setCreatedAt(budget.getCreatedAt());
             List<LaborOrBikePartBudget> laborOrBikePartBudgetList = laborOrBikePartBudgetRepository.findAllLaborOrBikePartBudgetById(budget.getId());
             for (LaborOrBikePartBudget laborOrBikePartBudget:laborOrBikePartBudgetList) {
@@ -82,6 +83,7 @@ public class BudgetService {
         budgetDTO.setDiscountPercentage(budget.getDiscountPercentage());
         budgetDTO.setStatus(budget.getStatus());
         budgetDTO.setNotes(budget.getNotes());
+        budgetDTO.setProblems(budget.getProblems());
         budgetDTO.setCreatedAt(budget.getCreatedAt());
         List<BikeService> bikeServiceList = bikeServiceService.listAllBikeServices();
         for (LaborOrBikePartBudget laborOrBikePartBudget:laborOrBikePartBudgetList) {
@@ -118,6 +120,7 @@ public class BudgetService {
         budget.setDiscountPercentage(createBudgetRequest.getDiscountPercentage());
         budget.setStatus(createBudgetRequest.getStatus());
         budget.setNotes(createBudgetRequest.getNotes());
+        budget.setProblems(createBudgetRequest.getProblems());
         budget.setCreatedAt(LocalDateTime.now());
         try {
             budgetRepository.save(budget);
@@ -148,6 +151,7 @@ public class BudgetService {
         budget.setStatus(editBudgetRequest.getStatus());
         budget.setDiscountPercentage(editBudgetRequest.getDiscountPercentage());
         budget.setNotes(editBudgetRequest.getNotes());
+        budget.setProblems(editBudgetRequest.getProblems());
         budget.setUpdatedAt(LocalDateTime.now());
         try {
             budgetRepository.save(budget);

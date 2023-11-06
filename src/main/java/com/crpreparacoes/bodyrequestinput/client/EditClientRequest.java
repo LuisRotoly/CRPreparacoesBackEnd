@@ -13,7 +13,9 @@ public class EditClientRequest {
     private String name;
     private String cpfcnpj;
     private String cep;
+    private String street;
     private String addressNumber;
+    private String district;
     private String birthDate;
     private String phone;
     private String optionalPhone;

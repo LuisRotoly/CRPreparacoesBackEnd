@@ -24,4 +24,5 @@ public class CreateBudgetRequest {
     private Integer discountPercentage;
     private Status status;
     private String notes;
+    private String problems;
 }
