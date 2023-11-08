@@ -69,4 +69,12 @@ public class FinanceBudgetController {
     public @ResponseBody double getToBePaidById(@RequestParam Long id){
         return financeBudgetService.getToBePaidById(id);
     }
+
+    /**Método para buscar o total que resta a receber
+     * @return double - Valor total
+     */
+    @RequestMapping(value="/getTotalToReceive", method = RequestMethod.GET)
+    public @ResponseBody double getTotalToReceive(){
+        return financeBudgetService.getTotalToReceive();
+    }
 }

@@ -143,4 +143,19 @@ public class FinanceBudgetService {
             return totalValue;
         }
     }
+
+    public double getTotalToReceive() {
+        List<Budget> budgetList = budgetRepository.listAllBudgetsFinished(Status.StatusEnum.FINISHED.id);
+        double sumValue = 0;
+        for (Budget budget:budgetList) {
+            double totalBudgetValue = getTotalvalue(budget.getId(), budget.getDiscountPercentage());
+            Double paidValue = financeBudgetRepository.getSumPaidValue(budget.getId());
+            if(paidValue != null) {
+                sumValue = sumValue + (totalBudgetValue - paidValue);
+            }else{
+                sumValue = sumValue + totalBudgetValue;
+            }
+        }
+        return sumValue;
+    }
 }

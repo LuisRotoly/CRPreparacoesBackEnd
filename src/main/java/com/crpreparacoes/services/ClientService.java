@@ -12,6 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -104,6 +107,20 @@ public class ClientService {
     }
 
     public List<Client> filterListClients(String word) {
-        return clientBikeRepository.filterListClients(word);
+        List<Client> clientBikeList = clientBikeRepository.filterListClients(word);
+        List<Client> clientList = clientRepository.filterListClients(word);
+        for (Client client: clientList) {
+            boolean match = false;
+            for (Client clientBike: clientBikeList) {
+                if (clientBike.getId().equals(client.getId())) {
+                    match = true;
+                    break;
+                }
+            }
+            if(!match){
+                clientBikeList.add(client);
+            }
+        }
+        return clientBikeList;
     }
 }
