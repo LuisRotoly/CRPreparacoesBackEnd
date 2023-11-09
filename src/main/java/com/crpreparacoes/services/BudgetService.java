@@ -10,6 +10,7 @@ import com.crpreparacoes.models.BikeService;
 import com.crpreparacoes.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -48,7 +49,6 @@ public class BudgetService {
             budgetDTO.setClient(budget.getClient());
             budgetDTO.setPlate(budget.getPlate());
             budgetDTO.setBikeName(budget.getBikeName());
-            budgetDTO.setBikeName(budget.getBikeName());
             budgetDTO.setStatus(budget.getStatus());
             budgetDTO.setProblems(budget.getProblems());
             budgetDTO.setCreatedAt(budget.getCreatedAt());
@@ -64,8 +64,38 @@ public class BudgetService {
         return budgetDTOList;
     }
 
-    public List<Budget> filterListBudgets(String word) {
-        return budgetRepository.filterListBudgets(word);
+    public List<BudgetDTO> filterListBudgets(String word, Long statusId){
+        if(statusId == -1 && word.equals("")) {
+            return listAllBudgets();
+        }else if(statusId == -1){
+             return convertBudgetToBudgetDTO(budgetRepository.filterListBudgetsWithoutStatus(word));
+        }else if(word.equals("")){
+            return convertBudgetToBudgetDTO(budgetRepository.filterListBudgetsWithoutWord(statusId));
+        }else{
+            return convertBudgetToBudgetDTO(budgetRepository.filterListBudgets(word, statusId));
+        }
+    }
+
+    private List<BudgetDTO> convertBudgetToBudgetDTO(List<Budget> budgetList){
+        List<BudgetDTO> budgetDTOList = new ArrayList<>();
+        for (Budget budget: budgetList) {
+            BudgetDTO budgetDTO = new BudgetDTO();
+            budgetDTO.setId(budget.getId());
+            budgetDTO.setClient(budget.getClient());
+            budgetDTO.setPlate(budget.getPlate());
+            budgetDTO.setBikeName(budget.getBikeName());
+            budgetDTO.setStatus(budget.getStatus());
+            budgetDTO.setCreatedAt(budget.getCreatedAt());
+            List<LaborOrBikePartBudget> laborOrBikePartBudgetList = laborOrBikePartBudgetRepository.findAllLaborOrBikePartBudgetById(budget.getId());
+            for (LaborOrBikePartBudget laborOrBikePartBudget:laborOrBikePartBudgetList) {
+                budgetDTO.setTotalValue(budgetDTO.getTotalValue()+laborOrBikePartBudget.getValue()*laborOrBikePartBudget.getQuantity());
+            }
+            if(budget.getDiscountPercentage() != null){
+                budgetDTO.setTotalValue(budgetDTO.getTotalValue() - (budgetDTO.getTotalValue()*budget.getDiscountPercentage()/100));
+            }
+            budgetDTOList.add(budgetDTO);
+        }
+        return budgetDTOList;
     }
 
     public BudgetDTO listBudgetById(Long id) {

@@ -26,10 +26,10 @@ public class BudgetSketchController {
     }
 
     /**Método para buscar os orçamentos avulsos usando um filtro
-     * @return List<BudgetSketch> - Lista de orçamentos avulsos
+     * @return List<BudgetSketchDTO> - Lista de orçamentos avulsos
      */
     @RequestMapping(value="/filterListBudgetsSketch", method = RequestMethod.GET)
-    public @ResponseBody List<BudgetSketch> filterListBudgetsSketch(@RequestParam String word){
+    public @ResponseBody List<BudgetSketchDTO> filterListBudgetsSketch(@RequestParam String word){
         return budgetSketchService.filterListBudgetsSketch(word);
     }
 

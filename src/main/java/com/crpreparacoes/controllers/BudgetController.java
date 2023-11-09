@@ -28,11 +28,11 @@ public class BudgetController {
     }
 
     /**Método para buscar os orçamentos usando um filtro
-     * @return List<Budget> - Lista de orçamentos
+     * @return List<BudgetDTO> - Lista de orçamentos
      */
     @RequestMapping(value="/filterListBudgets", method = RequestMethod.GET)
-    public @ResponseBody List<Budget> filterListBudgets(@RequestParam String word){
-        return budgetService.filterListBudgets(word);
+    public @ResponseBody List<BudgetDTO> filterListBudgets(@RequestParam String word, @RequestParam Long statusId){
+        return budgetService.filterListBudgets(word, statusId);
     }
 
     /**Método para buscar um orçamento

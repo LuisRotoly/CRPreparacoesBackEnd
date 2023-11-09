@@ -51,8 +51,23 @@ public class BudgetSketchService {
         return budgetSketchDTOListDTOList;
     }
 
-    public List<BudgetSketch> filterListBudgetsSketch(String word) {
-        return budgetSketchRepository.filterListBudgetsSketch(word);
+    public List<BudgetSketchDTO> filterListBudgetsSketch(String word) {
+        List<BudgetSketch> budgetSketchList = budgetSketchRepository.filterListBudgetsSketch(word);
+        List<BudgetSketchDTO> budgetSketchDTOListDTOList = new ArrayList<>();
+        for (BudgetSketch budgetSketch: budgetSketchList) {
+            BudgetSketchDTO budgetSketchDTO = new BudgetSketchDTO();
+            budgetSketchDTO.setId(budgetSketch.getId());
+            budgetSketchDTO.setClient(budgetSketch.getClient());
+            budgetSketchDTO.setPlate(budgetSketch.getPlate());
+            budgetSketchDTO.setBike(budgetSketch.getBike());
+            budgetSketchDTO.setCreatedAt(budgetSketch.getCreatedAt());
+            List<LaborOrBikePartBudgetSketch> laborOrBikePartBudgetSketchList = laborOrBikePartBudgetSketchRepository.findAllLaborOrBikePartBudgetSketchById(budgetSketch.getId());
+            for (LaborOrBikePartBudgetSketch laborOrBikePartBudgetSketch:laborOrBikePartBudgetSketchList) {
+                budgetSketchDTO.setTotalValue(budgetSketchDTO.getTotalValue()+laborOrBikePartBudgetSketch.getValue()*laborOrBikePartBudgetSketch.getQuantity());
+            }
+            budgetSketchDTOListDTOList.add(budgetSketchDTO);
+        }
+        return budgetSketchDTOListDTOList;
     }
 
     public BudgetSketchDTO listBudgetSketchById(Long id) {
