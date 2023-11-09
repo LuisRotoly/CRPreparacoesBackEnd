@@ -20,4 +20,5 @@ public class FinanceBudgetDTO {
     private LocalDateTime finalizedAt;
     private double totalValue;
     private double toBePaid;
+    private String notes;
 }

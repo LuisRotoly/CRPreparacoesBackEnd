@@ -11,5 +11,6 @@ import lombok.NoArgsConstructor;
 public class CreateFinanceBudgetRequest {
     private Long budgetId;
     private double paymentValue;
+    private String notes;
     private PaymentFormat paymentFormat;
 }

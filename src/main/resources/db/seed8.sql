@@ -7,3 +7,7 @@ UPDATE client SET district = "";
 ALTER TABLE budget ADD problems varchar(255);
 
 UPDATE budget SET problems = "";
+
+ALTER TABLE finance_budget ADD notes varchar(100);
+
+UPDATE finance_budget SET notes = "";

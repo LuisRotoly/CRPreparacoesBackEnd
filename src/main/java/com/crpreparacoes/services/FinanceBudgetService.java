@@ -96,6 +96,7 @@ public class FinanceBudgetService {
         financeBudgetDTO.setClientName(budget.getClient().getName());
         financeBudgetDTO.setFinalizedAt(budget.getUpdatedAt());
         financeBudgetDTO.setBikeNameAndBrand(budget.getBikeName()+" "+budget.getBikeBrand());
+        financeBudgetDTO.setNotes(budget.getNotes());
         double totalValue = getTotalvalue(budget.getId(), budget.getDiscountPercentage());
         financeBudgetDTO.setTotalValue(totalValue);
         Double paidValue = financeBudgetRepository.getSumPaidValue(budget.getId());
@@ -126,6 +127,7 @@ public class FinanceBudgetService {
         financeBudget.setPaymentFormat(createFinanceBudgetRequest.getPaymentFormat());
         financeBudget.setValue(createFinanceBudgetRequest.getPaymentValue());
         financeBudget.setPaidAt(LocalDateTime.now());
+        financeBudget.setNotes(createFinanceBudgetRequest.getNotes());
         try {
             financeBudgetRepository.save(financeBudget);
         }catch(Exception Error){

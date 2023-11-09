@@ -25,6 +25,9 @@ public class FinanceBudget {
     @Column(name="value")
     private double value;
 
+    @Column(name="notes")
+    private String notes;
+
     @OneToOne
     @JoinColumn(name="payment_format_id", referencedColumnName = "id_payment_format")
     private PaymentFormat paymentFormat;
