@@ -16,6 +16,6 @@ public interface ClientRepository extends CrudRepository<Client, Long> {
     @Query(value = "SELECT c FROM Client c WHERE c.cpfcnpj = :cpfcnpj")
     Client findByCpfcnpj(String cpfcnpj);
 
-    @Query(value = "SELECT c FROM Client c WHERE c.name LIKE %:word% OR c.nickname LIKE %:word% OR c.cpfcnpj LIKE %:word% ORDER BY c.name")
+    @Query(value = "SELECT c FROM Client c WHERE c.name LIKE %:word% OR c.nickname LIKE %:word% OR c.cpfcnpj LIKE %:word% OR c.phone LIKE %:word% ORDER BY c.name")
     List<Client> filterListClients(String word);
 }
