@@ -28,8 +28,8 @@ public class FinanceBudgetController {
      * @return List<FinanceBudgetDTO> - Lista de pagamentos dos orçamentos
      */
     @RequestMapping(value="/filterFinanceBudgetListRequest", method = RequestMethod.GET)
-    public @ResponseBody List<FinanceBudgetDTO> filterFinanceBudgetListRequest(@RequestParam String word){
-        return financeBudgetService.filterFinanceBudgetListRequest(word);
+    public @ResponseBody List<FinanceBudgetDTO> filterFinanceBudgetListRequest(@RequestParam String word, @RequestParam boolean isInDebit){
+        return financeBudgetService.filterFinanceBudgetListRequest(word, isInDebit);
     }
 
     /**Método para buscar um pagamento de um orçamento
