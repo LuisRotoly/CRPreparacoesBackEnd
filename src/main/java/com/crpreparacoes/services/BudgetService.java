@@ -10,9 +10,10 @@ import com.crpreparacoes.models.BikeService;
 import com.crpreparacoes.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
 
+import java.time.DayOfWeek;
 import java.time.LocalDateTime;
+import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,8 +41,10 @@ public class BudgetService {
     @Autowired
     private PaymentFormatRepository paymentFormatRepository;
 
+    private final LocalDateTime lastMonday = LocalDateTime.now().with(TemporalAdjusters.previous(DayOfWeek.MONDAY));
+
     public List<BudgetDTO> listAllBudgets() {
-        List<Budget> budgetList = budgetRepository.listAllBudgets();
+        List<Budget> budgetList = budgetRepository.listAllBudgets(lastMonday.minusWeeks(2));
         List<BudgetDTO> budgetDTOList = new ArrayList<>();
         for (Budget budget: budgetList) {
             BudgetDTO budgetDTO = new BudgetDTO();
@@ -68,9 +71,9 @@ public class BudgetService {
         if(statusId == -1 && word.equals("")) {
             return listAllBudgets();
         }else if(statusId == -1){
-             return convertBudgetToBudgetDTO(budgetRepository.filterListBudgetsWithoutStatus(word));
+             return convertBudgetToBudgetDTO(budgetRepository.filterListBudgetsWithoutStatus(word, lastMonday.minusWeeks(4)));
         }else if(word.equals("")){
-            return convertBudgetToBudgetDTO(budgetRepository.filterListBudgetsWithoutWord(statusId));
+            return convertBudgetToBudgetDTO(budgetRepository.filterListBudgetsWithoutWord(statusId, lastMonday.minusWeeks(4)));
         }else{
             return convertBudgetToBudgetDTO(budgetRepository.filterListBudgets(word, statusId));
         }
