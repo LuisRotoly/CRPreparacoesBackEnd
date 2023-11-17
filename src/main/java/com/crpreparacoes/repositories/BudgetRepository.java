@@ -31,4 +31,7 @@ public interface BudgetRepository extends CrudRepository<Budget, Long> {
 
     @Query(value = "SELECT b FROM Budget b WHERE b.isRemoved != true AND b.status.id = :statusId ORDER BY b.createdAt DESC")
     List<Budget> listAllBudgetsFinished(Long statusId);
+
+    @Query(value = "SELECT b FROM Budget b WHERE b.isRemoved != true AND b.updatedAt >= :monthAgo AND b.status.id = :statusId ORDER BY b.createdAt DESC")
+    List<Budget> listAllBudgetsFinishedByaMonth(Long statusId, LocalDateTime monthAgo);
 }

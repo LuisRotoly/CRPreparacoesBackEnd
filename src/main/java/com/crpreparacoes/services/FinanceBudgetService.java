@@ -29,9 +29,8 @@ public class FinanceBudgetService {
     @Autowired
     private LaborOrBikePartBudgetRepository laborOrBikePartBudgetRepository;
 
-
     public List<FinanceBudgetDTO> listAllFinanceBudgets() {
-        List<Budget> budgetList = budgetRepository.listAllBudgetsFinished(Status.StatusEnum.FINISHED.id);
+        List<Budget> budgetList = budgetRepository.listAllBudgetsFinishedByaMonth(Status.StatusEnum.FINISHED.id, LocalDateTime.now().minusMonths(1));
         List<FinanceBudgetDTO> financeBudgetDTOList = new ArrayList<>();
         for (Budget budget:budgetList) {
             FinanceBudgetDTO financeBudgetDTO = new FinanceBudgetDTO();
@@ -65,7 +64,7 @@ public class FinanceBudgetService {
         return totalValue;
     }
 
-    public List<FinanceBudgetDTO> filterFinanceBudgetListRequest(String word) {
+    public List<FinanceBudgetDTO> filterFinanceBudgetListRequest(String word, boolean isInDebit) {
         List<Budget> budgetList = budgetRepository.filterListFinanceBudgets(word, Status.StatusEnum.FINISHED.id);
         List<FinanceBudgetDTO> financeBudgetDTOList = new ArrayList<>();
         for (Budget budget:budgetList) {
@@ -83,7 +82,11 @@ public class FinanceBudgetService {
             }else{
                 financeBudgetDTO.setToBePaid(totalValue);
             }
-            financeBudgetDTOList.add(financeBudgetDTO);
+            if(isInDebit && financeBudgetDTO.getToBePaid()>0) {
+                financeBudgetDTOList.add(financeBudgetDTO);
+            }else if(!isInDebit){
+                financeBudgetDTOList.add(financeBudgetDTO);
+            }
         }
         return financeBudgetDTOList;
     }
