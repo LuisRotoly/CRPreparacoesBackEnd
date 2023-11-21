@@ -236,4 +236,27 @@ public class BudgetService {
             throw new ApiRequestException("Erro ao tentar alterar as observações do orçamento!");
         }
     }
+
+    public List<BudgetDTO> listBudgetByClientId(Long clientId) {
+        List<Budget> budgetList = budgetRepository.listAllBudgetsByClientId(clientId);
+        List<BudgetDTO> budgetDTOList = new ArrayList<>();
+        for (Budget budget: budgetList) {
+            BudgetDTO budgetDTO = new BudgetDTO();
+            budgetDTO.setId(budget.getId());
+            budgetDTO.setPlate(budget.getPlate());
+            budgetDTO.setBikeBrand(budget.getBikeBrand());
+            budgetDTO.setBikeName(budget.getBikeName());
+            budgetDTO.setStatus(budget.getStatus());
+            budgetDTO.setCreatedAt(budget.getCreatedAt());
+            List<LaborOrBikePartBudget> laborOrBikePartBudgetList = laborOrBikePartBudgetRepository.findAllLaborOrBikePartBudgetById(budget.getId());
+            for (LaborOrBikePartBudget laborOrBikePartBudget:laborOrBikePartBudgetList) {
+                budgetDTO.setTotalValue(budgetDTO.getTotalValue()+laborOrBikePartBudget.getValue()*laborOrBikePartBudget.getQuantity());
+            }
+            if(budget.getDiscountPercentage() != null){
+                budgetDTO.setTotalValue(budgetDTO.getTotalValue() - (budgetDTO.getTotalValue()*budget.getDiscountPercentage()/100));
+            }
+            budgetDTOList.add(budgetDTO);
+        }
+        return budgetDTOList;
+    }
 }
