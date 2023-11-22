@@ -155,6 +155,7 @@ public class BudgetService {
         budget.setNotes(createBudgetRequest.getNotes());
         budget.setProblems(createBudgetRequest.getProblems());
         budget.setCreatedAt(LocalDateTime.now());
+        budget.setUpdatedAt(LocalDateTime.now());
         try {
             budgetRepository.save(budget);
             if(createBudgetRequest.getStatus().equals(new Status(Status.StatusEnum.FINISHED))){
@@ -186,6 +187,7 @@ public class BudgetService {
         budget.setNotes(editBudgetRequest.getNotes());
         budget.setProblems(editBudgetRequest.getProblems());
         budget.setUpdatedAt(LocalDateTime.now());
+        budget.setKilometersDriven(editBudgetRequest.getKilometersDriven());
         try {
             budgetRepository.save(budget);
             laborOrBikePartBudgetRepository.deleteAllByBudgetId(budget.getId());
