@@ -60,7 +60,7 @@ public class BudgetService {
                 budgetDTO.setTotalValue(budgetDTO.getTotalValue()+laborOrBikePartBudget.getValue()*laborOrBikePartBudget.getQuantity());
             }
             if(budget.getDiscountPercentage() != null){
-                budgetDTO.setTotalValue(budgetDTO.getTotalValue() - (budgetDTO.getTotalValue()*budget.getDiscountPercentage()/100));
+                budgetDTO.setTotalValue(getValueWithDiscount(budgetDTO.getTotalValue(),budget.getDiscountPercentage()));
             }
             budgetDTOList.add(budgetDTO);
         }
@@ -94,7 +94,7 @@ public class BudgetService {
                 budgetDTO.setTotalValue(budgetDTO.getTotalValue()+laborOrBikePartBudget.getValue()*laborOrBikePartBudget.getQuantity());
             }
             if(budget.getDiscountPercentage() != null){
-                budgetDTO.setTotalValue(budgetDTO.getTotalValue() - (budgetDTO.getTotalValue()*budget.getDiscountPercentage()/100));
+                budgetDTO.setTotalValue(getValueWithDiscount(budgetDTO.getTotalValue(),budget.getDiscountPercentage()));
             }
             budgetDTOList.add(budgetDTO);
         }
@@ -133,7 +133,7 @@ public class BudgetService {
         budgetDTO.setTotalValue(budgetDTO.getTotalValue() + (laborOrBikePartBudget.getValue()* laborOrBikePartBudget.getQuantity()));
         }
         if(budgetDTO.getDiscountPercentage() != null){
-            budgetDTO.setTotalValue(budgetDTO.getTotalValue() - (budgetDTO.getTotalValue()*budgetDTO.getDiscountPercentage()/100));
+            budgetDTO.setTotalValue(getValueWithDiscount(budgetDTO.getTotalValue(),budgetDTO.getDiscountPercentage()));
         }
         return budgetDTO;
     }
@@ -237,5 +237,32 @@ public class BudgetService {
         }catch(Exception Error){
             throw new ApiRequestException("Erro ao tentar alterar as observações do orçamento!");
         }
+    }
+
+    private double getValueWithDiscount(double totalValue, Integer discount){
+        return totalValue - (totalValue*discount/100);
+    }
+
+    public List<BudgetDTO> listBudgetByClientId(Long clientId) {
+        List<Budget> budgetList = budgetRepository.listAllBudgetsByClientId(clientId);
+        List<BudgetDTO> budgetDTOList = new ArrayList<>();
+        for (Budget budget: budgetList) {
+            BudgetDTO budgetDTO = new BudgetDTO();
+            budgetDTO.setId(budget.getId());
+            budgetDTO.setPlate(budget.getPlate());
+            budgetDTO.setBikeBrand(budget.getBikeBrand());
+            budgetDTO.setBikeName(budget.getBikeName());
+            budgetDTO.setStatus(budget.getStatus());
+            budgetDTO.setCreatedAt(budget.getCreatedAt());
+            List<LaborOrBikePartBudget> laborOrBikePartBudgetList = laborOrBikePartBudgetRepository.findAllLaborOrBikePartBudgetById(budget.getId());
+            for (LaborOrBikePartBudget laborOrBikePartBudget:laborOrBikePartBudgetList) {
+                budgetDTO.setTotalValue(budgetDTO.getTotalValue()+laborOrBikePartBudget.getValue()*laborOrBikePartBudget.getQuantity());
+            }
+            if(budget.getDiscountPercentage() != null){
+                budgetDTO.setTotalValue(getValueWithDiscount(budgetDTO.getTotalValue(),budget.getDiscountPercentage()));
+            }
+            budgetDTOList.add(budgetDTO);
+        }
+        return budgetDTOList;
     }
 }

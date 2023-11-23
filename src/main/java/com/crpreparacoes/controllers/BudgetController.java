@@ -78,4 +78,12 @@ public class BudgetController {
     public void editBudgetNotesById(@RequestBody EditBudgetNotesRequest editBudgetNotesRequest){
         budgetService.editBudgetNotesById(editBudgetNotesRequest);
     }
+
+    /**Método para buscar os orçamentos usando o id do cliente
+     * @return List<BudgetDTO> - Lista de orçamentos
+     */
+    @RequestMapping(value="/listBudgetByClientId", method = RequestMethod.GET)
+    public @ResponseBody List<BudgetDTO> listBudgetByClientId(@RequestParam Long clientId){
+        return budgetService.listBudgetByClientId(clientId);
+    }
 }
