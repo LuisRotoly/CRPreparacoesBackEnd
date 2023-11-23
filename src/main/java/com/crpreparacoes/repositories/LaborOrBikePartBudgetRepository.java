@@ -19,4 +19,7 @@ public interface LaborOrBikePartBudgetRepository extends CrudRepository<LaborOrB
     @Modifying
     @Query(value = "DELETE FROM LaborOrBikePartBudget l WHERE l.budget.id = :budgetId")
     void deleteAllByBudgetId(Long budgetId);
+
+    @Query(value = "SELECT l FROM LaborOrBikePartBudget l WHERE l.name = :bikePartName AND l.budget.status.id = :statusFinishedId ORDER BY l.budget.createdAt DESC")
+    List<LaborOrBikePartBudget> getLaborOrBikePartBudgetByBikePartId(String bikePartName, Long statusFinishedId);
 }

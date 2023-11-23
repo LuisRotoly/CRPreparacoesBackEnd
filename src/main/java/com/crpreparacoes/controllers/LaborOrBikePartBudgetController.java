@@ -1,6 +1,8 @@
 package com.crpreparacoes.controllers;
 
 import com.crpreparacoes.bodyrequestinput.budget.AddLaborOrBikePartBudget;
+import com.crpreparacoes.dto.BudgetDTO;
+import com.crpreparacoes.dto.LaborOrBikePartBudgetDTO;
 import com.crpreparacoes.models.LaborOrBikePartBudget;
 import com.crpreparacoes.services.LaborOrBikePartBudgetService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,5 +37,13 @@ public class LaborOrBikePartBudgetController {
     @RequestMapping(value="/removeLaborOrBikePartBudget", method = RequestMethod.DELETE)
     public double removeLaborOrBikePartBudget(@RequestParam Long id){
         return laborOrBikePartBudgetService.removeLaborOrBikePartBudget(id);
+    }
+
+    /**Método para buscar os orçamentos usando o id da peça da moto
+     * @return List<LaborOrBikePartBudgetDTO> - Lista de orçamentos
+     */
+    @RequestMapping(value="/getBudgetHistoryByBikePartId", method = RequestMethod.GET)
+    public @ResponseBody List<LaborOrBikePartBudgetDTO> getBudgetHistoryByBikePartId(@RequestParam Long bikePartId){
+        return laborOrBikePartBudgetService.getBudgetHistoryByBikePartId(bikePartId);
     }
 }
