@@ -26,6 +26,10 @@ public class SingleSaleService {
     @Autowired
     private BikePartRepository bikePartRepository;
 
+    private Integer reduceStockQuantity(Integer oldStockQuantity, Integer selledQuantity){
+        return oldStockQuantity - selledQuantity;
+    }
+
     public void addSingleSale(CreateSingleSaleRequest createSingleSaleRequest) {
         SingleSale singleSale = new SingleSale();
         singleSale.setClient(createSingleSaleRequest.getClient());
@@ -37,7 +41,7 @@ public class SingleSaleService {
                 laborOrBikePartSingleSaleRepository.save(laborOrBikePartSingleSale);
                 BikePart bikePart = bikePartRepository.findByName(laborOrBikePartSingleSale.getName());
                 if(bikePart != null) {
-                    bikePart.setStockQuantity(bikePart.getStockQuantity() - laborOrBikePartSingleSale.getQuantity());
+                    bikePart.setStockQuantity(reduceStockQuantity(bikePart.getStockQuantity(),laborOrBikePartSingleSale.getQuantity()));
                     bikePartRepository.save(bikePart);
                 }
             }
@@ -47,7 +51,8 @@ public class SingleSaleService {
     }
 
     public List<LaborOrBikePartSingleSaleDTO> getSingleSaleHistoryByBikePartId(Long bikePartId) {
-        List<LaborOrBikePartSingleSale> laborOrBikePartSingleSaleList = laborOrBikePartSingleSaleRepository.getLaborOrBikePartBudgetByBikePartId(bikePartRepository.findById(bikePartId).get().getName());
+        List<LaborOrBikePartSingleSale> laborOrBikePartSingleSaleList =
+                laborOrBikePartSingleSaleRepository.getLaborOrBikePartBudgetByBikePartId(bikePartRepository.findById(bikePartId).get().getName());
         List<LaborOrBikePartSingleSaleDTO> laborOrBikePartSingleSaleDTOList = new ArrayList<>();
         for (LaborOrBikePartSingleSale laborOrBikePartSingleSale: laborOrBikePartSingleSaleList) {
             LaborOrBikePartSingleSaleDTO laborOrBikePartSingleSaleDTO = new LaborOrBikePartSingleSaleDTO();
