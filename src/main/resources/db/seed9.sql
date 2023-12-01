@@ -4,11 +4,12 @@ CREATE TABLE single_sale (
   created_at datetime NOT NULL
 );
 
-CREATE TABLE labor_or_bike_part_single_sale (
-  id_labor_or_bike_part_budget bigint AUTO_INCREMENT PRIMARY KEY,
-  name varchar(100),
+CREATE TABLE single_sale_rel_bike_part (
+  id_single_sale_rel_bike_part bigint AUTO_INCREMENT PRIMARY KEY,
   quantity integer,
   `value` double,
+  bike_part_id bigint,
+  FOREIGN KEY (bike_part_id) REFERENCES bike_part(id_bike_part),
   single_sale_id bigint,
   FOREIGN KEY (single_sale_id) REFERENCES single_sale(id_single_sale)
 );

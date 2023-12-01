@@ -1,11 +1,11 @@
 package com.crpreparacoes.services;
 
 import com.crpreparacoes.bodyrequestinput.singleSale.CreateSingleSaleRequest;
-import com.crpreparacoes.dto.LaborOrBikePartSingleSaleDTO;
+import com.crpreparacoes.dto.SingleSaleRelBikePartDTO;
 import com.crpreparacoes.exception.ApiRequestException;
 import com.crpreparacoes.models.*;
 import com.crpreparacoes.repositories.BikePartRepository;
-import com.crpreparacoes.repositories.LaborOrBikePartSingleSaleRepository;
+import com.crpreparacoes.repositories.SingleSaleRelBikePartRepository;
 import com.crpreparacoes.repositories.SingleSaleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,7 +21,7 @@ public class SingleSaleService {
     private SingleSaleRepository singleSaleRepository;
 
     @Autowired
-    private LaborOrBikePartSingleSaleRepository laborOrBikePartSingleSaleRepository;
+    private SingleSaleRelBikePartRepository singleSaleRelBikePartRepository;
 
     @Autowired
     private BikePartRepository bikePartRepository;
@@ -36,10 +36,11 @@ public class SingleSaleService {
         singleSale.setCreatedAt(LocalDateTime.now());
         try {
             singleSaleRepository.save(singleSale);
-            for (LaborOrBikePartSingleSale laborOrBikePartSingleSale: createSingleSaleRequest.getLaborOrBikePartList()) {
+            for (SingleSaleRelBikePart laborOrBikePartSingleSale: createSingleSaleRequest.getSingleSaleRelBikePartList()) {
+                BikePart bikePart = laborOrBikePartSingleSale.getBikePart();
                 laborOrBikePartSingleSale.setSingleSale(singleSale);
-                laborOrBikePartSingleSaleRepository.save(laborOrBikePartSingleSale);
-                BikePart bikePart = bikePartRepository.findByName(laborOrBikePartSingleSale.getName());
+                laborOrBikePartSingleSale.setBikePart(bikePart);
+                singleSaleRelBikePartRepository.save(laborOrBikePartSingleSale);
                 if(bikePart != null) {
                     bikePart.setStockQuantity(reduceStockQuantity(bikePart.getStockQuantity(),laborOrBikePartSingleSale.getQuantity()));
                     bikePartRepository.save(bikePart);
@@ -50,12 +51,12 @@ public class SingleSaleService {
         }
     }
 
-    public List<LaborOrBikePartSingleSaleDTO> getSingleSaleHistoryByBikePartId(Long bikePartId) {
-        List<LaborOrBikePartSingleSale> laborOrBikePartSingleSaleList =
-                laborOrBikePartSingleSaleRepository.getLaborOrBikePartBudgetByBikePartId(bikePartRepository.findById(bikePartId).get().getName());
-        List<LaborOrBikePartSingleSaleDTO> laborOrBikePartSingleSaleDTOList = new ArrayList<>();
-        for (LaborOrBikePartSingleSale laborOrBikePartSingleSale: laborOrBikePartSingleSaleList) {
-            LaborOrBikePartSingleSaleDTO laborOrBikePartSingleSaleDTO = new LaborOrBikePartSingleSaleDTO();
+    public List<SingleSaleRelBikePartDTO> getSingleSaleHistoryByBikePartId(Long bikePartId) {
+        List<SingleSaleRelBikePart> laborOrBikePartSingleSaleList =
+                singleSaleRelBikePartRepository.getSingleSaleByBikePartId(bikePartRepository.findById(bikePartId).get().getId());
+        List<SingleSaleRelBikePartDTO> laborOrBikePartSingleSaleDTOList = new ArrayList<>();
+        for (SingleSaleRelBikePart laborOrBikePartSingleSale: laborOrBikePartSingleSaleList) {
+            SingleSaleRelBikePartDTO laborOrBikePartSingleSaleDTO = new SingleSaleRelBikePartDTO();
             laborOrBikePartSingleSaleDTO.setId(laborOrBikePartSingleSale.getId());
             laborOrBikePartSingleSaleDTO.setClient(laborOrBikePartSingleSale.getSingleSale().getClient());
             laborOrBikePartSingleSaleDTO.setCreatedAt(laborOrBikePartSingleSale.getSingleSale().getCreatedAt());

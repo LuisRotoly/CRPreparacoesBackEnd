@@ -9,21 +9,22 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name="labor_or_bike_part_single_sale")
-public class LaborOrBikePartSingleSale {
+@Table(name="single_sale_rel_bike_part")
+public class SingleSaleRelBikePart {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_labor_or_bike_part_budget")
+    @Column(name = "id_single_sale_rel_bike_part")
     private Long id;
-
-    @Column(name = "name")
-    private String name;
 
     @Column(name = "quantity")
     private Integer quantity;
 
     @Column(name = "value")
     private double value;
+
+    @OneToOne
+    @JoinColumn(name="bike_part_id", referencedColumnName = "id_bike_part")
+    private BikePart bikePart;
 
     @OneToOne
     @JoinColumn(name="single_sale_id", referencedColumnName = "id_single_sale")
