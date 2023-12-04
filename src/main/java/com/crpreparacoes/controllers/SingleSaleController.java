@@ -19,7 +19,6 @@ public class SingleSaleController {
      */
     @RequestMapping(value="/addSingleSale", method = RequestMethod.POST)
     public void addSingleSale(@RequestBody CreateSingleSaleRequest createSingleSaleRequest){
-        System.out.println(createSingleSaleRequest);
         singleSaleService.addSingleSale(createSingleSaleRequest);
     }
 
