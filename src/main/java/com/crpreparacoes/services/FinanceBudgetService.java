@@ -64,7 +64,7 @@ public class FinanceBudgetService {
         return totalValue;
     }
 
-    public List<FinanceBudgetDTO> filterFinanceBudgetListRequest(String word, boolean isInDebit) {
+    public List<FinanceBudgetDTO> filterFinanceBudgetListRequest(String word, boolean isInDebit, boolean isPaid) {
         List<Budget> budgetList = budgetRepository.filterListFinanceBudgets(word, Status.StatusEnum.FINISHED.id);
         List<FinanceBudgetDTO> financeBudgetDTOList = new ArrayList<>();
         for (Budget budget:budgetList) {
@@ -84,7 +84,9 @@ public class FinanceBudgetService {
             }
             if(isInDebit && financeBudgetDTO.getToBePaid()>0) {
                 financeBudgetDTOList.add(financeBudgetDTO);
-            }else if(!isInDebit){
+            }else if(isPaid && financeBudgetDTO.getToBePaid()<=0){
+                financeBudgetDTOList.add(financeBudgetDTO);
+            }else if(!isInDebit && !isPaid){
                 financeBudgetDTOList.add(financeBudgetDTO);
             }
         }
