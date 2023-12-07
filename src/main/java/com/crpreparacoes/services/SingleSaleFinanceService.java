@@ -54,7 +54,7 @@ public class SingleSaleFinanceService {
         return totalValue;
     }
 
-    public List<SingleSaleFinanceDTO> filterSingleSaleFinanceListRequest(String word, boolean isInDebit) {
+    public List<SingleSaleFinanceDTO> filterSingleSaleFinanceListRequest(String word, boolean isInDebit, boolean isPaid) {
         List<SingleSale> singleSaleList = singleSaleRepository.filterListSingleSaleFinance(word);
         List<SingleSaleFinanceDTO> singleSaleFinanceDTOList = new ArrayList<>();
         for (SingleSale singleSale:singleSaleList) {
@@ -72,7 +72,9 @@ public class SingleSaleFinanceService {
             }
             if(isInDebit && singleSaleFinanceDTO.getToBePaid()>0) {
                 singleSaleFinanceDTOList.add(singleSaleFinanceDTO);
-            }else if(!isInDebit){
+            }else if(isPaid && singleSaleFinanceDTO.getToBePaid()<=0){
+                singleSaleFinanceDTOList.add(singleSaleFinanceDTO);
+            }else if(!isInDebit && !isPaid){
                 singleSaleFinanceDTOList.add(singleSaleFinanceDTO);
             }
         }

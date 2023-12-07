@@ -28,8 +28,8 @@ public class SingleSaleFinanceController {
      * @return List<SingleSaleFinanceDTO> - Lista de pagamentos das vendas
      */
     @RequestMapping(value="/filterSingleSaleFinanceListRequest", method = RequestMethod.GET)
-    public @ResponseBody List<SingleSaleFinanceDTO> filterSingleSaleFinanceListRequest(@RequestParam String word, @RequestParam boolean isInDebit){
-        return singleSaleFinanceService.filterSingleSaleFinanceListRequest(word, isInDebit);
+    public @ResponseBody List<SingleSaleFinanceDTO> filterSingleSaleFinanceListRequest(@RequestParam String word, @RequestParam boolean isInDebit, @RequestParam boolean isPaid){
+        return singleSaleFinanceService.filterSingleSaleFinanceListRequest(word, isInDebit, isPaid);
     }
 
     /**Método para buscar um pagamento de uma venda
