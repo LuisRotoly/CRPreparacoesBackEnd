@@ -86,4 +86,11 @@ public class BudgetController {
     public @ResponseBody List<BudgetDTO> listBudgetByClientId(@RequestParam Long clientId){
         return budgetService.listBudgetByClientId(clientId);
     }
+
+    /**Método para reabrir um orçamento
+     */
+    @RequestMapping(value="/reopenBudget", method = RequestMethod.PUT)
+    public void reopenBudget(@RequestParam Long budgetId){
+        budgetService.reopenBudget(budgetId);
+    }
 }

@@ -1,0 +1,1 @@
+ALTER TABLE budget ADD warranty varchar(100);

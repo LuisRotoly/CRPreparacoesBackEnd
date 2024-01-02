@@ -1,6 +1,7 @@
 package com.crpreparacoes.services;
 
 import com.crpreparacoes.bodyrequestinput.singleSale.CreateSingleSaleRequest;
+import com.crpreparacoes.dto.SingleSaleDTO;
 import com.crpreparacoes.dto.SingleSaleRelBikePartDTO;
 import com.crpreparacoes.exception.ApiRequestException;
 import com.crpreparacoes.models.*;
@@ -64,5 +65,20 @@ public class SingleSaleService {
             laborOrBikePartSingleSaleDTOList.add(laborOrBikePartSingleSaleDTO);
         }
         return laborOrBikePartSingleSaleDTOList;
+    }
+
+    public SingleSaleDTO getSingleSaleById(Long singleSaleId) {
+        SingleSale singleSale = singleSaleRepository.findById(singleSaleId).get();
+        List<SingleSaleRelBikePart> singleSaleRelBikePartList = singleSaleRelBikePartRepository.getSingleSaleBySingleSaleId(singleSaleId);
+        SingleSaleDTO singleSaleDTO = new SingleSaleDTO();
+        singleSaleDTO.setClientName(singleSale.getClient());
+        singleSaleDTO.setCreatedAt(singleSale.getCreatedAt());
+        singleSaleDTO.setSingleSaleRelBikePartList(singleSaleRelBikePartList);
+        double totalValue = 0;
+        for (SingleSaleRelBikePart singleSaleRelBikePart: singleSaleRelBikePartList) {
+            totalValue = totalValue + (singleSaleRelBikePart.getQuantity() * singleSaleRelBikePart.getValue());
+        }
+        singleSaleDTO.setTotalValue(totalValue);
+        return singleSaleDTO;
     }
 }

@@ -25,4 +25,5 @@ public class CreateBudgetRequest {
     private Status status;
     private String notes;
     private String problems;
+    private String warranty;
 }
