@@ -55,6 +55,7 @@ public class BudgetService {
             budgetDTO.setStatus(budget.getStatus());
             budgetDTO.setProblems(budget.getProblems());
             budgetDTO.setCreatedAt(budget.getCreatedAt());
+            budgetDTO.setWarranty(budget.getWarranty());
             List<LaborOrBikePartBudget> laborOrBikePartBudgetList = laborOrBikePartBudgetRepository.findAllLaborOrBikePartBudgetById(budget.getId());
             for (LaborOrBikePartBudget laborOrBikePartBudget:laborOrBikePartBudgetList) {
                 budgetDTO.setTotalValue(budgetDTO.getTotalValue()+laborOrBikePartBudget.getValue()*laborOrBikePartBudget.getQuantity());
@@ -89,6 +90,7 @@ public class BudgetService {
             budgetDTO.setBikeName(budget.getBikeName());
             budgetDTO.setStatus(budget.getStatus());
             budgetDTO.setCreatedAt(budget.getCreatedAt());
+            budgetDTO.setWarranty(budget.getWarranty());
             List<LaborOrBikePartBudget> laborOrBikePartBudgetList = laborOrBikePartBudgetRepository.findAllLaborOrBikePartBudgetById(budget.getId());
             for (LaborOrBikePartBudget laborOrBikePartBudget:laborOrBikePartBudgetList) {
                 budgetDTO.setTotalValue(budgetDTO.getTotalValue()+laborOrBikePartBudget.getValue()*laborOrBikePartBudget.getQuantity());
@@ -118,6 +120,7 @@ public class BudgetService {
         budgetDTO.setNotes(budget.getNotes());
         budgetDTO.setProblems(budget.getProblems());
         budgetDTO.setCreatedAt(budget.getCreatedAt());
+        budgetDTO.setWarranty(budget.getWarranty());
         List<BikeService> bikeServiceList = bikeServiceService.listAllBikeServices();
         for (LaborOrBikePartBudget laborOrBikePartBudget:laborOrBikePartBudgetList) {
             boolean match = false;
@@ -156,6 +159,7 @@ public class BudgetService {
         budget.setProblems(createBudgetRequest.getProblems());
         budget.setCreatedAt(LocalDateTime.now());
         budget.setUpdatedAt(LocalDateTime.now());
+        budget.setWarranty(createBudgetRequest.getWarranty());
         try {
             budgetRepository.save(budget);
             if(createBudgetRequest.getStatus().equals(new Status(Status.StatusEnum.FINISHED))){
@@ -188,6 +192,7 @@ public class BudgetService {
         budget.setProblems(editBudgetRequest.getProblems());
         budget.setUpdatedAt(LocalDateTime.now());
         budget.setKilometersDriven(editBudgetRequest.getKilometersDriven());
+        budget.setWarranty(editBudgetRequest.getWarranty());
         try {
             budgetRepository.save(budget);
             laborOrBikePartBudgetRepository.deleteAllByBudgetId(budget.getId());
@@ -254,6 +259,7 @@ public class BudgetService {
             budgetDTO.setBikeName(budget.getBikeName());
             budgetDTO.setStatus(budget.getStatus());
             budgetDTO.setCreatedAt(budget.getCreatedAt());
+            budgetDTO.setWarranty(budget.getWarranty());
             List<LaborOrBikePartBudget> laborOrBikePartBudgetList = laborOrBikePartBudgetRepository.findAllLaborOrBikePartBudgetById(budget.getId());
             for (LaborOrBikePartBudget laborOrBikePartBudget:laborOrBikePartBudgetList) {
                 budgetDTO.setTotalValue(budgetDTO.getTotalValue()+laborOrBikePartBudget.getValue()*laborOrBikePartBudget.getQuantity());
@@ -264,5 +270,24 @@ public class BudgetService {
             budgetDTOList.add(budgetDTO);
         }
         return budgetDTOList;
+    }
+
+    public void reopenBudget(Long budgetId) {
+        Budget budget = budgetRepository.findById(budgetId).get();
+        budget.setStatus(new Status(Status.StatusEnum.WAITING_PAYMENT));
+        budget.setUpdatedAt(LocalDateTime.now());
+        List<LaborOrBikePartBudget> laborOrBikePartBudgetList = laborOrBikePartBudgetRepository.findAllLaborOrBikePartBudgetById(budgetId);
+        try {
+            budgetRepository.save(budget);
+            for (LaborOrBikePartBudget laborOrBikePartBudget : laborOrBikePartBudgetList) {
+                BikePart bikePart = bikePartRepository.findByName(laborOrBikePartBudget.getName());
+                if(bikePart != null) {
+                    bikePart.setStockQuantity(bikePart.getStockQuantity() + laborOrBikePartBudget.getQuantity());
+                    bikePartRepository.save(bikePart);
+                }
+            }
+        }catch(Exception Error){
+            throw new ApiRequestException("Erro ao tentar reabrir o orçamento!");
+        }
     }
 }

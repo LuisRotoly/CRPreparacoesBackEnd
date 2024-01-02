@@ -65,4 +65,7 @@ public class Budget {
 
     @Column(name="is_removed")
     private boolean isRemoved;
+
+    @Column(name="warranty")
+    private String warranty;
 }

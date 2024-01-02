@@ -20,5 +20,6 @@ public class EditBudgetRequest {
     private Status status;
     private String notes;
     private String problems;
+    private String warranty;
     private Integer kilometersDriven;
 }

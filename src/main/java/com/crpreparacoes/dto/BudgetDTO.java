@@ -32,4 +32,5 @@ public class BudgetDTO {
     private double totalValueBikeService;
     private double totalValueBikePart;
     private double totalValue;
+    private String warranty;
 }

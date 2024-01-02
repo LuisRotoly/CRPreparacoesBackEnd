@@ -13,6 +13,9 @@ public interface SingleSaleRelBikePartRepository extends CrudRepository<SingleSa
     @Query(value = "SELECT s FROM SingleSaleRelBikePart s WHERE s.bikePart.id = :bikePartId ORDER BY s.singleSale.createdAt DESC")
     List<SingleSaleRelBikePart> getSingleSaleByBikePartId(Long bikePartId);
 
+    @Query(value = "SELECT s FROM SingleSaleRelBikePart s WHERE s.singleSale.id = :singleSaleId ORDER BY s.singleSale.createdAt DESC")
+    List<SingleSaleRelBikePart> getSingleSaleBySingleSaleId(Long singleSaleId);
+
     @Query(value = "SELECT s FROM SingleSaleRelBikePart s WHERE s.singleSale.id = :singleSaleId")
     List<SingleSaleRelBikePart> findAllLaborOrBikePartBudgetById(Long singleSaleId);
 }
