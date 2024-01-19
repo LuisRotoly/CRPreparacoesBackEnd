@@ -62,6 +62,7 @@ public class BikePartService {
         bikePart.setProfitPercentage(editBikePartRequest.getProfitPercentage());
         bikePart.setNotes(editBikePartRequest.getNotes());
         bikePart.setUpdatedAt(LocalDateTime.now());
+        bikePart.setStockQuantity(editBikePartRequest.getStockQuantity());
         try {
             bikePartRepository.save(bikePart);
         }catch(Exception Error){

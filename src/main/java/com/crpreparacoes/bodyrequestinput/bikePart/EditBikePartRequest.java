@@ -14,4 +14,5 @@ public class EditBikePartRequest {
     private Double value;
     private Double profitPercentage;
     private String notes;
+    private Integer stockQuantity;
 }
