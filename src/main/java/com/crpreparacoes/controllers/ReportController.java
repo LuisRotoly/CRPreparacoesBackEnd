@@ -14,11 +14,27 @@ public class ReportController {
     @Autowired
     private ReportService reportService;
 
-    /**Método para buscar o relatório de recebidos
-     * @return List<Double> - Lista de recebiveis do ano
+    /**Método para buscar o relatório de recebidos brutos
+     * @return List<Double> - Lista de recebiveis brutos do ano
      */
-    @RequestMapping(value="/getReportData", method = RequestMethod.GET)
-    public @ResponseBody List<Double> getReportData(@RequestParam String year){
-        return reportService.getReportData(year);
+    @RequestMapping(value="/getGrossIncomeData", method = RequestMethod.GET)
+    public @ResponseBody List<Double> getGrossIncomeData(@RequestParam String year){
+        return reportService.getGrossIncomeData(year);
+    }
+
+    /**Método para buscar o relatório de recebidos líquidos
+     * @return List<Double> - Lista de recebiveis líquidos do ano
+     */
+    @RequestMapping(value="/getNetRevenueData", method = RequestMethod.GET)
+    public @ResponseBody List<Double> getNetRevenueData(@RequestParam String year){
+        return reportService.getNetRevenueData(year);
+    }
+
+    /**Método para buscar o valor gasto com peças
+     * @return List<Double> - Lista com o valor gasto com peças do ano
+     */
+    @RequestMapping(value="/getBikePartSpentData", method = RequestMethod.GET)
+    public @ResponseBody List<Double> getBikePartSpentData(@RequestParam String year){
+        return reportService.getBikePartSpentData(year);
     }
 }
