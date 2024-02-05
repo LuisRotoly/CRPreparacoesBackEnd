@@ -22,6 +22,9 @@ public class SingleSaleRelBikePart {
     @Column(name = "value")
     private double value;
 
+    @Column(name = "default_value")
+    private double defaultValue;
+
     @OneToOne
     @JoinColumn(name="bike_part_id", referencedColumnName = "id_bike_part")
     private BikePart bikePart;

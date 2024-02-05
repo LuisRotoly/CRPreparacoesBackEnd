@@ -110,6 +110,7 @@ public class BudgetSketchService {
             budgetSketchRepository.save(budgetSketch);
             for (LaborOrBikePartBudgetSketch laborOrBikePartBudgetSketch: createBudgetSketchRequest.getLaborOrBikePartBudgetSketchList()) {
                 laborOrBikePartBudgetSketch.setBudgetSketch(budgetSketch);
+                laborOrBikePartBudgetSketch.setDefaultValue(getLaborOrBikePartDefaultValue(laborOrBikePartBudgetSketch.getName()));
                 laborOrBikePartBudgetSketchRepository.save(laborOrBikePartBudgetSketch);
             }
         }catch(Exception Error){
@@ -129,10 +130,21 @@ public class BudgetSketchService {
             laborOrBikePartBudgetSketchRepository.deleteAllByBudgetSketchId(budgetSketch.getId());
             for (LaborOrBikePartBudgetSketch laborOrBikePartBudgetSketch: editBudgetSketchRequest.getLaborOrBikePartBudgetSketchList()) {
                 laborOrBikePartBudgetSketch.setBudgetSketch(budgetSketch);
+                laborOrBikePartBudgetSketch.setDefaultValue(getLaborOrBikePartDefaultValue(laborOrBikePartBudgetSketch.getName()));
                 laborOrBikePartBudgetSketchRepository.save(laborOrBikePartBudgetSketch);
             }
         }catch(Exception Error){
             throw new ApiRequestException("Erro ao tentar editar o orçamento!");
+        }
+    }
+
+    private double getLaborOrBikePartDefaultValue(String laborOrBikePartName){
+        BikePart bikePart = bikePartRepository.findByName(laborOrBikePartName);
+        if(bikePart == null){
+            BikeService bikeService = bikeServiceRepository.findByName(laborOrBikePartName);
+            return bikeService.getValue();
+        }else{
+            return bikePart.getValue();
         }
     }
 

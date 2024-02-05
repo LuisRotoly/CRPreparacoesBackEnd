@@ -41,6 +41,9 @@ public class BudgetService {
     @Autowired
     private PaymentFormatRepository paymentFormatRepository;
 
+    @Autowired
+    private BikeServiceRepository bikeServiceRepository;
+
     private final LocalDateTime lastMonday = LocalDateTime.now().with(TemporalAdjusters.previous(DayOfWeek.MONDAY));
 
     public List<BudgetDTO> listAllBudgets() {
@@ -72,8 +75,12 @@ public class BudgetService {
         if(statusId == -1 && word.equals("")) {
             return listAllBudgets();
         }else if(statusId == -1){
-             return convertBudgetToBudgetDTO(budgetRepository.filterListBudgetsWithoutStatus(word, lastMonday.minusWeeks(4)));
-        }else if(word.equals("")){
+            if(word.length() < 5){
+                return convertBudgetToBudgetDTO(budgetRepository.filterListBudgetsWithoutStatus(word, lastMonday.minusWeeks(4)));
+            }else{
+                return convertBudgetToBudgetDTO(budgetRepository.filterListBudgetsWithWord(word));
+            }
+        }else if(word.equals("") && statusId.equals(Status.StatusEnum.FINISHED.id)){
             return convertBudgetToBudgetDTO(budgetRepository.filterListBudgetsWithoutWord(statusId, lastMonday.minusWeeks(4)));
         }else{
             return convertBudgetToBudgetDTO(budgetRepository.filterListBudgets(word, statusId));
@@ -168,6 +175,10 @@ public class BudgetService {
                     if(bikePart != null) {
                         bikePart.setStockQuantity(bikePart.getStockQuantity() - laborOrBikePartBudget.getQuantity());
                         bikePartRepository.save(bikePart);
+                        laborOrBikePartBudget.setDefaultValue(bikePart.getValue());
+                    }else{
+                        BikeService bikeService = bikeServiceRepository.findByName(laborOrBikePartBudget.getName());
+                        laborOrBikePartBudget.setDefaultValue(bikeService.getValue());
                     }
                     laborOrBikePartBudget.setBudget(budget);
                     laborOrBikePartBudgetRepository.save(laborOrBikePartBudget);
@@ -175,6 +186,7 @@ public class BudgetService {
             }else{
                 for (LaborOrBikePartBudget laborOrBikePartBudget: createBudgetRequest.getLaborOrBikePartBudgetList()) {
                     laborOrBikePartBudget.setBudget(budget);
+                    laborOrBikePartBudget.setDefaultValue(getLaborOrBikePartDefaultValue(laborOrBikePartBudget.getName()));
                     laborOrBikePartBudgetRepository.save(laborOrBikePartBudget);
                 }
             }
@@ -202,6 +214,10 @@ public class BudgetService {
                     if(bikePart != null) {
                         bikePart.setStockQuantity(bikePart.getStockQuantity() - laborOrBikePartBudget.getQuantity());
                         bikePartRepository.save(bikePart);
+                        laborOrBikePartBudget.setDefaultValue(bikePart.getValue());
+                    }else{
+                        BikeService bikeService = bikeServiceRepository.findByName(laborOrBikePartBudget.getName());
+                        laborOrBikePartBudget.setDefaultValue(bikeService.getValue());
                     }
                     laborOrBikePartBudget.setBudget(budget);
                     laborOrBikePartBudgetRepository.save(laborOrBikePartBudget);
@@ -209,11 +225,22 @@ public class BudgetService {
             }else{
                 for (LaborOrBikePartBudget laborOrBikePartBudget : editBudgetRequest.getLaborOrBikePartBudgetList()) {
                     laborOrBikePartBudget.setBudget(budget);
+                    laborOrBikePartBudget.setDefaultValue(getLaborOrBikePartDefaultValue(laborOrBikePartBudget.getName()));
                     laborOrBikePartBudgetRepository.save(laborOrBikePartBudget);
                 }
             }
         }catch(Exception Error){
             throw new ApiRequestException("Erro ao tentar editar o orçamento!");
+        }
+    }
+
+    private double getLaborOrBikePartDefaultValue(String laborOrBikePartName){
+        BikePart bikePart = bikePartRepository.findByName(laborOrBikePartName);
+        if(bikePart == null){
+            BikeService bikeService = bikeServiceRepository.findByName(laborOrBikePartName);
+            return bikeService.getValue();
+        }else{
+            return bikePart.getValue();
         }
     }
 

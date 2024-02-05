@@ -79,9 +79,8 @@ public class ReportService {
             List<LaborOrBikePartBudget> laborOrBikePartBudgetList = laborOrBikePartBudgetRepository.findAllLaborOrBikePartBudgetById(budget.getId());
             double bikePartSpent = 0;
             for (LaborOrBikePartBudget laborOrBikePartBudget : laborOrBikePartBudgetList) {
-                BikePart bikePart = bikePartRepository.findByName(laborOrBikePartBudget.getName());
-                if(bikePart != null) {
-                    bikePartSpent = bikePartSpent + (bikePart.getValue() * laborOrBikePartBudget.getQuantity());
+                if(bikePartRepository.findByName(laborOrBikePartBudget.getName()) != null) {
+                    bikePartSpent = bikePartSpent + (laborOrBikePartBudget.getDefaultValue() * laborOrBikePartBudget.getQuantity());
                 }
             }
             for (int monthCount = 0; monthCount < monthList.length; monthCount++) {
