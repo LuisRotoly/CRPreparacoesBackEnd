@@ -20,6 +20,9 @@ public interface BudgetRepository extends CrudRepository<Budget, Long> {
     @Query(value = "SELECT b FROM Budget b WHERE b.isRemoved != true AND b.createdAt >= :twoWeeksAgo AND (b.plate LIKE %:word% OR b.client.name LIKE %:word% OR b.client.cpfcnpj LIKE %:word%) ORDER BY b.createdAt DESC")
     List<Budget> filterListBudgetsWithoutStatus(String word, LocalDateTime twoWeeksAgo);
 
+    @Query(value = "SELECT b FROM Budget b WHERE b.isRemoved != true AND (b.plate LIKE %:word% OR b.client.name LIKE %:word% OR b.client.cpfcnpj LIKE %:word%) ORDER BY b.createdAt DESC")
+    List<Budget> filterListBudgetsWithWord(String word);
+
     @Query(value = "SELECT b FROM Budget b WHERE b.isRemoved != true AND b.createdAt >= :twoWeeksAgo AND b.status.id = :statusId ORDER BY b.createdAt DESC")
     List<Budget> filterListBudgetsWithoutWord(Long statusId, LocalDateTime twoWeeksAgo);
 

@@ -41,6 +41,7 @@ public class SingleSaleService {
                 BikePart bikePart = laborOrBikePartSingleSale.getBikePart();
                 laborOrBikePartSingleSale.setSingleSale(singleSale);
                 laborOrBikePartSingleSale.setBikePart(bikePart);
+                laborOrBikePartSingleSale.setDefaultValue(bikePart.getValue());
                 singleSaleRelBikePartRepository.save(laborOrBikePartSingleSale);
                 if(bikePart != null) {
                     bikePart.setStockQuantity(reduceStockQuantity(bikePart.getStockQuantity(),laborOrBikePartSingleSale.getQuantity()));

@@ -25,6 +25,9 @@ public class LaborOrBikePartBudgetSketch {
     @Column(name = "value")
     private double value;
 
+    @Column(name = "default_value")
+    private double defaultValue;
+
     @OneToOne
     @JoinColumn(name="budget_sketch_id", referencedColumnName = "id_budget_sketch")
     private BudgetSketch budgetSketch;
