@@ -23,4 +23,7 @@ public interface FinanceBudgetRepository extends CrudRepository<FinanceBudget, L
 
     @Query(value = "SELECT * FROM finance_budget WHERE DATE(paid_at) = :date ORDER BY paid_at DESC", nativeQuery = true)
     List<FinanceBudget> findAllCreditPaymentListByDate(String date);
+
+    @Query(value = "SELECT * FROM finance_budget WHERE MONTH(paid_at) = :month AND YEAR(paid_at) = :year ORDER BY paid_at ASC;", nativeQuery = true)
+    List<FinanceBudget> getCreditPaymentListByYearAndMonth(String year, int month);
 }
