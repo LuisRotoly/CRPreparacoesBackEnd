@@ -7,7 +7,6 @@ import com.crpreparacoes.services.DebitPaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @CrossOrigin(origins = "*")
@@ -37,5 +36,21 @@ public class DebitPaymentController {
     @RequestMapping(value="/getCashHandlingListByDate", method = RequestMethod.GET)
     public @ResponseBody List<CashHandlingDTO> getCashHandlingListByDate(@RequestParam String date){
         return debitPaymentService.getCashHandlingListByDate(date);
+    }
+
+    /**Método para buscar todos os anos que existem uma entrada
+     * @return List<String> - lista de anos
+     */
+    @RequestMapping(value="/getCashHandlingExistentYear", method = RequestMethod.GET)
+    public @ResponseBody List<String> getCashHandlingExistentYear(){
+        return debitPaymentService.getCashHandlingExistentYear();
+    }
+
+    /**Método para buscar todos os pagamentos dado um ano e mes
+     * @return List<CashHandlingDTO> - lista de débitos e créditos
+     */
+    @RequestMapping(value="/getCashHandlingListByYearAndMonth", method = RequestMethod.GET)
+    public @ResponseBody List<CashHandlingDTO> getCashHandlingListByYearAndMonth(@RequestParam String year, @RequestParam int month){
+        return debitPaymentService.getCashHandlingListByYearAndMonth(year, month);
     }
 }

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -71,6 +72,36 @@ public class DebitPaymentService {
             cashHandlingDTO.setFreeInput(true);
             cashHandlingDTOList.add(cashHandlingDTO);
         }
+        return cashHandlingDTOList;
+    }
+
+    public List<String> getCashHandlingExistentYear() {
+        return debitPaymentRepository.getCashHandlingExistentYear();
+    }
+
+    public List<CashHandlingDTO> getCashHandlingListByYearAndMonth(String year, int month) {
+        List<DebitPayment> debitPaymentList = debitPaymentRepository.getCashHandlingListByYearAndMonth(year, month);
+        List<FinanceBudget> financeBudgetList = financeBudgetRepository.getCreditPaymentListByYearAndMonth(year, month);
+        List<CashHandlingDTO> cashHandlingDTOList = new ArrayList<>();
+        for (FinanceBudget financeBudget: financeBudgetList) {
+            CashHandlingDTO cashHandlingDTO = new CashHandlingDTO();
+            cashHandlingDTO.setDescription(financeBudget.getBudget().getClient().getName()+" - "+financeBudget.getBudget().getBikeName());
+            cashHandlingDTO.setNotes(financeBudget.getNotes());
+            cashHandlingDTO.setValue(financeBudget.getValue());
+            cashHandlingDTO.setPaymentFormat(financeBudget.getPaymentFormat());
+            cashHandlingDTO.setPaidAt(financeBudget.getPaidAt());
+            cashHandlingDTOList.add(cashHandlingDTO);
+        }
+        for (DebitPayment debitPayment: debitPaymentList) {
+            CashHandlingDTO cashHandlingDTO = new CashHandlingDTO();
+            cashHandlingDTO.setDescription(debitPayment.getDescription());
+            cashHandlingDTO.setNotes(debitPayment.getNotes());
+            cashHandlingDTO.setValue(debitPayment.getValue());
+            cashHandlingDTO.setPaymentFormat(debitPayment.getPaymentFormat());
+            cashHandlingDTO.setPaidAt(debitPayment.getPaidAt());
+            cashHandlingDTOList.add(cashHandlingDTO);
+        }
+        Collections.sort(cashHandlingDTOList, (x, y) -> x.getPaidAt().compareTo(y.getPaidAt()));
         return cashHandlingDTOList;
     }
 }
