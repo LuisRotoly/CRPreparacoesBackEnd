@@ -21,4 +21,5 @@ public class FinanceBudgetDTO {
     private double totalValue;
     private double toBePaid;
     private String notes;
+    private boolean isPaid;
 }

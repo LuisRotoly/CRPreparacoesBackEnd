@@ -4,6 +4,7 @@ import com.crpreparacoes.bodyrequestinput.budget.EditBudgetNotesRequest;
 import com.crpreparacoes.dto.BudgetDTO;
 import com.crpreparacoes.bodyrequestinput.budget.CreateBudgetRequest;
 import com.crpreparacoes.bodyrequestinput.budget.EditBudgetRequest;
+import com.crpreparacoes.dto.FinanceBudgetDTO;
 import com.crpreparacoes.exception.ApiRequestException;
 import com.crpreparacoes.models.*;
 import com.crpreparacoes.models.BikeService;
@@ -315,6 +316,16 @@ public class BudgetService {
             }
         }catch(Exception Error){
             throw new ApiRequestException("Erro ao tentar reabrir o orçamento!");
+        }
+    }
+
+    public void paidBudgetById(Long budgetId) {
+        Budget budget = budgetRepository.findById(budgetId).get();
+        budget.setPaid(!budget.isPaid());
+        try {
+            budgetRepository.save(budget);
+        }catch(Exception Error){
+            throw new ApiRequestException("Erro ao tentar marcar o orçamento como pago!");
         }
     }
 }

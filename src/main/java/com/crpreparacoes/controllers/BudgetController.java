@@ -4,7 +4,6 @@ import com.crpreparacoes.bodyrequestinput.budget.EditBudgetNotesRequest;
 import com.crpreparacoes.dto.BudgetDTO;
 import com.crpreparacoes.bodyrequestinput.budget.CreateBudgetRequest;
 import com.crpreparacoes.bodyrequestinput.budget.EditBudgetRequest;
-import com.crpreparacoes.models.Budget;
 import com.crpreparacoes.models.Client;
 import com.crpreparacoes.services.BudgetService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -92,5 +91,12 @@ public class BudgetController {
     @RequestMapping(value="/reopenBudget", method = RequestMethod.PUT)
     public void reopenBudget(@RequestParam Long budgetId){
         budgetService.reopenBudget(budgetId);
+    }
+
+    /**Método para mostrar que um orçamento está pago ou não
+     */
+    @RequestMapping(value="/paidBudgetById", method = RequestMethod.PUT)
+    public void paidBudgetById(@RequestParam Long budgetId){
+        budgetService.paidBudgetById(budgetId);
     }
 }

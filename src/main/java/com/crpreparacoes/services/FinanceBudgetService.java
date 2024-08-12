@@ -42,7 +42,9 @@ public class FinanceBudgetService {
             double totalValue = getTotalvalue(budget.getId(), budget.getDiscountPercentage());
             financeBudgetDTO.setTotalValue(totalValue);
             Double paidValue = financeBudgetRepository.getSumPaidValue(budget.getId());
-            if(paidValue != null) {
+            if(budget.isPaid()){
+                financeBudgetDTO.setToBePaid(0);
+            }else if(paidValue != null) {
                 financeBudgetDTO.setToBePaid(totalValue-paidValue);
             }else{
                 financeBudgetDTO.setToBePaid(totalValue);
@@ -77,14 +79,16 @@ public class FinanceBudgetService {
             double totalValue = getTotalvalue(budget.getId(), budget.getDiscountPercentage());
             financeBudgetDTO.setTotalValue(totalValue);
             Double paidValue = financeBudgetRepository.getSumPaidValue(budget.getId());
-            if(paidValue != null) {
+            if(budget.isPaid()){
+                financeBudgetDTO.setToBePaid(0);
+            }else if(paidValue != null) {
                 financeBudgetDTO.setToBePaid(totalValue-paidValue);
             }else{
                 financeBudgetDTO.setToBePaid(totalValue);
             }
-            if(isInDebit && financeBudgetDTO.getToBePaid()>0) {
+            if(isInDebit && financeBudgetDTO.getToBePaid()>0 && !budget.isPaid()) {
                 financeBudgetDTOList.add(financeBudgetDTO);
-            }else if(isPaid && financeBudgetDTO.getToBePaid()<=0){
+            }else if(isPaid && financeBudgetDTO.getToBePaid()<=0 && budget.isPaid()){
                 financeBudgetDTOList.add(financeBudgetDTO);
             }else if(!isInDebit && !isPaid){
                 financeBudgetDTOList.add(financeBudgetDTO);
@@ -102,6 +106,7 @@ public class FinanceBudgetService {
         financeBudgetDTO.setFinalizedAt(budget.getUpdatedAt());
         financeBudgetDTO.setBikeNameAndBrand(budget.getBikeName()+" "+budget.getBikeBrand());
         financeBudgetDTO.setNotes(budget.getNotes());
+        financeBudgetDTO.setPaid(budget.isPaid());
         double totalValue = getTotalvalue(budget.getId(), budget.getDiscountPercentage());
         financeBudgetDTO.setTotalValue(totalValue);
         Double paidValue = financeBudgetRepository.getSumPaidValue(budget.getId());
