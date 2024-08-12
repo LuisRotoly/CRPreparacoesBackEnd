@@ -68,4 +68,7 @@ public class Budget {
 
     @Column(name="warranty")
     private String warranty;
+
+    @Column(name="is_paid")
+    private boolean isPaid;
 }

@@ -7,3 +7,5 @@ CREATE TABLE debit_payment (
   `value` double NOT NULL,
   paid_at datetime NOT NULL
 );
+
+ALTER TABLE budget ADD is_paid boolean NOT NULL;
